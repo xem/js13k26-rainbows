@@ -1,0 +1,31 @@
+﻿<!doctype html>
+<script src=helpers.js></script>
+<canvas width=720 height=405 id=e></canvas>
+<style>
+@font-face { font-family: emoji; src: url(Twemoji.ttf) }
+#a { position: absolute; top: 0; left: 0; border: 2px solid; background: #def; }
+#b { position: absolute; top: 0; left: 0; }
+</style>
+<script>
+onload = () => {
+  mouth = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M53 37Q44 20 27 29Q21 34 28 36Q40 26 49 39Z" fill="#000000" stroke="#000000"/></svg>';
+
+  imgmouth = new Image();
+  imgmouth.src = `data:image/svg+xml,${encodeURIComponent(mouth)}`;
+  
+  f=e.getContext("2d"); // game
+  
+  setInterval(()=>{
+  
+    f.font = "150px emoji";
+    f.save();
+    f.translate(200,200);
+    f.scale(-1,1);
+    f.fillText("🦄", 0, 0);
+    f.restore();
+    
+    f.drawImage(imgmouth, 10, 120);
+  }, 100);
+}
+
+</script>

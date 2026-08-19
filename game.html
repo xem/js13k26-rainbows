@@ -1,1 +1,87 @@
-a
+﻿<!doctype html>
+<script src=helpers.js></script>
+<canvas width=720 height=405 id=a></canvas>
+<canvas width=720 height=405 id=b></canvas>
+<style>
+#a { position: absolute; top: 0; left: 0; border: 2px solid; background: #def; }
+#b { position: absolute; top: 0; left: 0; }
+</style>
+<script>
+c=a.getContext("2d"); // bg, finished path
+d=b.getContext("2d"); // crayon
+
+c.lineWidth = 5;
+c.fillStyle = "#fff";
+c.strokeStyle = "brown";
+c.beginPath();
+c.moveTo(200, 0);
+c.lineTo(200, 50);
+c.moveTo(500, 0);
+c.lineTo(500, 50);
+c.stroke();
+c.closePath();
+c.beginPath();
+c.rect(100, 50, 500, 300);
+c.fill();
+c.stroke();
+c.closePath();
+
+  
+onmousemove = (e) => {
+  b.width ^= 0;
+  x = e.pageX;
+  y = e.pageY;
+  
+  c.beginPath();
+  c.rect(100+5, 50+5, 500-10, 300-10);
+  c.closePath();
+  
+  if(mousedown){
+    if(c.isPointInPath(x, y)){
+      paths[paths.length - 1].push({x,y});
+      currentpath = paths[paths.length-1];
+      if(currentpath.length > 1){
+        c.lineWidth = 5;
+        c.strokeStyle = "green";
+        drawCrayon(
+          currentpath[currentpath.length - 2].x,
+          currentpath[currentpath.length - 2].y,
+          currentpath[currentpath.length - 1].x,
+          currentpath[currentpath.length - 1].y,
+          10,
+          "green"
+        );
+      }
+    }
+    else{
+      if(paths[paths.length-1].length > 0)
+        paths.push([]);
+    }
+  }
+
+    
+  d.save();
+  
+  d.translate(x,y);
+  d.rotate(-.2);
+  d.scale(.9, .9);
+  d.drawImage(img, -40, -20);
+  
+  d.restore();
+}
+
+mousedown = 0;
+onmousedown = () => { 
+  mousedown = 1;
+  if(paths[paths.length-1].length > 0)
+    paths.push([]);
+}
+onmouseup = () => mousedown = 0;
+paths = [[]];
+
+onload = () => {
+  img = new Image();
+  img.src = `data:image/svg+xml,${encodeURIComponent(crayon("green"))}`;
+}
+
+</script>
