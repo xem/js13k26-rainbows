@@ -2,39 +2,137 @@
 <link rel=stylesheet href=style.css>
 <script src=helpers.js></script>
 <canvas width=720 height=405 id=e></canvas>
+<div id=text2>Unicorny's island had become a desert...</div>
 <style>
 canvas { border: 2px solid }
+#e { background: linear-gradient(#333 40%, #123 42%); }
+#text2 { width: 720px; position: absolute; top: 0; font: 30px Calibri, sans-serif; color: #fff; opacity: 0; transition: opacity 1s; padding: 30px; }
 </style>
 <script>
 onload = () => {
   mouth = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><circle cx="35" cy="30" r="12" fill="#ffffff" stroke="#ffffff"/><path d="M53 37Q44 20 27 29Q21 34 28 36Q40 26 49 39Z" fill="#888888" stroke="#888888"/></svg>';
   
+  moutho = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><circle cx="35" cy="30" r="12" fill="#ffffff" stroke="#ffffff"/><circle cx="39" cy="30" r="7" fill="#888888" stroke="#888888"/></svg>';
+  
   frown = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M6 20M5 19Q15 13 19 4Q25 1 24 8Q19 18 7 22Q3 22 5 19" fill="#888888" stroke="#888888"/></svg>';
+  
+  yellow = new Image();
+  yellow.src = `data:image/svg+xml,${encodeURIComponent(crayon("yellow"))}`;
 
   imgmouth = new Image();
   imgmouth.src = `data:image/svg+xml,${encodeURIComponent(mouth)}`;
   
+  imgmoutho = new Image();
+  imgmoutho.src = `data:image/svg+xml,${encodeURIComponent(moutho)}`;
+  
   imgfrown = new Image();
   imgfrown.src = `data:image/svg+xml,${encodeURIComponent(frown)}`;
   
+  setTimeout(()=> { text2.style.opacity = 1; }, 2000);
+  setTimeout(()=> { text2.style.opacity = 0; }, 5000);
+  setTimeout(() => { text2.innerHTML = "... until she found the yellow crayon !"; text2.style.opacity = 1; }, 8000);
+  setTimeout(() => { story = 1; }, 9000);
+  setTimeout(() => { text2.style.opacity = 0; scrolling = 0; }, 12000);
+  setTimeout(() => { text2.innerHTML = "The crayon said: \"use me to chase the clouds!\""; text2.style.opacity = 1; }, 15000);
+  setTimeout(() => { text2.style.opacity = 0; scrolling = 0; }, 18000);
+  setTimeout(() => { story = 2; }, 21000);
+  
+  // story steps:
+  // 0: text + scroll
+  // 1: find yellow crayon
+  // 2: draw the sun
+  story = 0;
+  
+  
   f=e.getContext("2d"); // game
   
+  // unicorn head offset
+  uoffsetx = -10;
+  uoffsety = 190;
+  
+  // scroll x offset
+  scroll = 0;
+  scrolling = 1;
+  
+  frame = 0;
+  
   setInterval(()=>{
+  
+    frame++;
+    if(scrolling) scroll++;
+    uoffsety = 190 + (scrolling ? (Math.cos(frame/10) * 15) : 0);
     e.width ^= 0; 
+    
+    // ground
+    f.beginPath();
+    f.fillStyle = "#111";
+    f.arc(360,1750,1500, 0, 7);
+    f.fill();
+    f.closePath();
+    
+    // tree
     f.font = "150px emoji";
     f.save();
-    f.translate(200,200);
-    f.scale(-1,1);
+    f.filter = "brightness(5%)";
+    //if(scroll > 360){
+    //  scroll = 0;
+    //}
+    f.translate(800 - scroll * 3,260);
+    f.scale(1.5,1.5);
+    f.fillText("🪾", 0, 0);
+    f.restore();
+    
+    // head
+    f.font = "150px emoji";
+    f.save();
+    f.translate(196+uoffsetx,200+uoffsety);
+    f.scale(-1.2,1.2);
+    f.filter = "brightness(45%)";
     f.fillText("🦄", 0, 0);
     f.restore();
     
+    if(story == 0){
+      // sad
+      f.save();
+      f.translate(131+uoffsetx,160+uoffsety);
+      f.scale(1,1);
+      f.filter = "brightness(45%)";
+      f.drawImage(imgmouth, -14, -10);
+      f.drawImage(imgfrown, -42, -53);
+      f.restore();
+    }
+    
+    if(story == 1){
+      // surprised
+      f.save();
+      f.translate(131+uoffsetx,160+uoffsety);
+      f.scale(1,1);
+      f.filter = "brightness(45%)";
+      f.drawImage(imgmoutho, -14, -10);
+      f.drawImage(imgfrown, -42, -58);
+      f.restore();
+    }
+    
+    // yellow crayon
     f.save();
-    f.translate(135,160);
-    f.scale(.8,.8);
-    f.drawImage(imgmouth, 0, 0);
-    f.drawImage(imgfrown, -30, -48);
+    f.translate(1500-scroll*3,220);
+    f.scale(1, 1);
+    f.drawImage(yellow, 0, 0);
     f.restore();
-  }, 100);
+    
+    // rain
+    f.beginPath();
+    f.lineWidth = 4;
+    f.strokeStyle = "#346";
+    for(i = 30; i--;){
+      f.moveTo(x = Math.random()*720, y = Math.random()*405)
+      f.lineTo(x-5,y+20);
+    }
+    f.stroke();
+    f.closePath();
+  }, 33);
 }
+
+
 
 </script>
