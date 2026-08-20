@@ -1,4 +1,5 @@
 ﻿<!doctype html>
+<link rel=stylesheet href=style.css>
 <script src=helpers.js></script>
 <div id=viewport>
   <div id=rainbow><div></div></div>
@@ -18,78 +19,6 @@
   <div id=title>Unicorny and the Mystery of the<br>Amazing Rainbow Crayons<br>which have Unfortunately Disappeared<br> from its Enchanted Island !</div>
 </div>
 
-<style>
-@font-face { font-family: emoji; src: url(Twemoji.ttf) }
-@keyframes float {
-    0%, 100% { top: -5px; transform: rotate(-8deg); }
-    50%      { top: 5px; transform: rotate(8deg); }
-}
-@keyframes wiggle {
-    0%, 100% { transform: rotate(-3deg); }
-    50%      { transform: rotate(3deg); }
-}
-@keyframes firemove {
-    0%, 100% { top: -15px; }
-    50%      { top: 15px; }
-}
-#viewport{width:720px;height:405px;overflow:hidden;border:1px solid;position:relative;perspective:500px}
-#viewport *{transform-style:preserve-3d;box-sizing:border-box}
-#camera{width:0;height:0;position:absolute;top:50%;left:50%}
-.circle { border-radius: 50% }
-.e { font-face: emoji; font-size: 40px; text-shadow: 0 0 5px #000; }
-.shadow { filter: contrast(0)brightness(0); opacity: .4 }
-.tree, .big.animal { font-size: 50px; text-align:center; overflow: hidden; }
-.flower { font-size: 20px; }
-.animal { font-size: 30px; text-align:center; }
-#viewport { background: linear-gradient(#acf, #eef 39%, #adf 40%, #7af);
-.island { background: radial-gradient(#46fb46, #0b7c0b) }
-#rainbow { width: 700px; height: 170px; overflow: hidden; }
-#rainbow div { width: 600px; height: 400px; position: absolute; top: 0px; left: -300px; opacity: 1; transition: opacity 4s; background: radial-gradient(circle,
-   rgba(0,0,0,0) 60%,
-   rgba(192, 0, 255, .8) 65%,
-   rgba(0, 192, 255, .8) 70%,
-   rgba(255, 255, 0, .8) 75%,
-   rgba(255, 0, 0, .8) 80%,
-   rgba(0,0,0,0) 85%
- )
-}
-#sun {
-  width: 1600px;
-  height: 1400px;
-  position: absolute;
-  top: -680px;
-  left: -80px;
-  animation: wiggle 10s ease-in-out infinite;
-  background: radial-gradient(circle, 
-  #fff 0%, #fffb 5%, #fff0 25%), conic-gradient(
-  #fff0 178deg, #fff7 180deg, #fff0 183deg, #fff0 198deg, #fff0 205deg, #fff7 208deg, #fff0 212deg, #fff0 225deg, #fff0 233deg, #fff7 237deg, #fff0 241deg, #fff0 250deg, #fff0 261deg, #fff7 265deg, #fff0 270deg, #fff0 277deg, #fff7 281deg, #fff0 286deg, #fff0 294deg, #fff7 297deg, #fff0 301deg, #fff0 307deg);
-}
-
-#b2 { position: relative; animation: float 2s ease-in-out infinite; }
-.animal div { animation: wiggle 2s ease-in-out infinite; }
-#unicorn { font-size: 180px; position: absolute; top: 220px; left: 540px; text-shadow: 0 0 2px #000; }
-#crayon1 { font-size: 110px; position: absolute; top: 320px; left: 450px; text-shadow: 0 0 2px #000; transform: scale(.8) rotate(-5deg); }
-#crayon2 { font-size: 110px; position: absolute; top: 318px; left: 465px; text-shadow: 0 0 2px #000; transform: scale(.8) rotate(1deg); }
-#crayon3 { font-size: 110px; position: absolute; top: 330px; left: 490px; text-shadow: 0 0 2px #000; transform: scale(.8) rotate(7deg); }
-#fade { background: #000; width: 800px; height: 600px; position: absolute; top: 0; }
-#title {
-  position: absolute;
-  width: 720px;
-  top: 400px;
-  font: 35px cursive, Calibri, sans-serif;
-  color: #fff;
-  text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 15px #000, 0 0 15px #000;
-  padding: 15px;
-  text-align: center;
-  line-height: 900px;
-  transition: top 10s, line-height 10s;
-}
-#hud { position: absolute; top: 300px; transition: top 2s; }
-#prologue, #play { border: 2px solid; border-radius: 5px; background: #def; padding: 5px 15px; font: 30px Calibri, sans-serif; position: absolute; top: 350px; color: #f68a9d; cursor: pointer; }
-#prologue { left: 20px; top: 173px; }
-#play { left: 20px; top: 230px; }
-.animal, .tree, .flower, #unicorn, #crayon1, #crayon2, #crayon3 { font-family: emoji }
-</style>
 
 <script>
 C.plane({n:"island",w:400,h:400,css:"circle island"});
@@ -100,15 +29,19 @@ for(i = 0; i < 20; i++){
   x = items[i].x;
   y = items[i].y;
   if(i == 0){
-    C.sprite({x,y,w:90,h:100,rx:90,html:"<div>🦒",css:"e big animal"});
-    C.plane({x,y,w:90,h:100,rx:0,html:"🦒",css:"e big animal shadow"});
+    C.sprite({x,y,w:90,h:110,rx:90,html:"<div>🦒",css:"e big animal"});
+    C.plane({x:x-5,y,w:90,h:100,rx:0,html:"🦒",css:"e big animal shadow"});
+  }
+  else if(i < 3){
+    C.sprite({x,y,w:90,h:105,rx:90,html:"🌴",css:"e tree"});
+    C.plane({x:x-10,y:y-5,w:90,h:100,rx:0,html:"🌴",css:"e tree shadow"});
   }
   else if(i < 5){
-    C.sprite({x,y,w:90,h:100,rx:90,html:[..."🌴🌳"][rand=Math.random()*2|0],css:"e tree"});
-    C.plane({x,y,w:90,h:100,rx:0,html:[..."🌴🌳"][rand],css:"e tree shadow"});
+    C.sprite({x,y,w:90,h:110,rx:90,html:"🌳",css:"e tree"});
+    C.plane({x,y,w:90,h:110,rx:0,html:"🌳",css:"e tree shadow"});
   }
   else if(i <= 8){
-    C.sprite({x,y,w:30,h:60,rx:90,html:("<div>"+[..."🐒🐢️🐇"][8-i]),css:"e animal"});
+    C.sprite({x,y,w:30,h:65,rx:90,html:("<div>"+[..."🐒🐢️🐇"][8-i]),css:"e animal"});
     C.plane({x,y,w:30,h:60,rx:0,html:[..."🐒🐖️🐇"][8-i],css:"e animal shadow"});
   }
   else {
@@ -129,7 +62,7 @@ onload = () => {
     title.style.lineHeight = "35px";
     fade.style.background = "#fff1";
     C.camera({z:-160});
-  }, 2000);
+  }, 500);
   setTimeout(()=>{
     hud.style.top = "0px";
   }, 11000);

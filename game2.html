@@ -1,22 +1,26 @@
 ﻿<!doctype html>
+<link rel=stylesheet href=style.css>
 <script src=helpers.js></script>
 <canvas width=720 height=405 id=e></canvas>
 <style>
-@font-face { font-family: emoji; src: url(Twemoji.ttf) }
-#a { position: absolute; top: 0; left: 0; border: 2px solid; background: #def; }
-#b { position: absolute; top: 0; left: 0; }
+canvas { border: 2px solid }
 </style>
 <script>
 onload = () => {
-  mouth = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M53 37Q44 20 27 29Q21 34 28 36Q40 26 49 39Z" fill="#000000" stroke="#000000"/></svg>';
+  mouth = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><circle cx="35" cy="30" r="12" fill="#ffffff" stroke="#ffffff"/><path d="M53 37Q44 20 27 29Q21 34 28 36Q40 26 49 39Z" fill="#888888" stroke="#888888"/></svg>';
+  
+  frown = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M6 20M5 19Q15 13 19 4Q25 1 24 8Q19 18 7 22Q3 22 5 19" fill="#888888" stroke="#888888"/></svg>';
 
   imgmouth = new Image();
   imgmouth.src = `data:image/svg+xml,${encodeURIComponent(mouth)}`;
   
+  imgfrown = new Image();
+  imgfrown.src = `data:image/svg+xml,${encodeURIComponent(frown)}`;
+  
   f=e.getContext("2d"); // game
   
   setInterval(()=>{
-  
+    e.width ^= 0; 
     f.font = "150px emoji";
     f.save();
     f.translate(200,200);
@@ -24,7 +28,12 @@ onload = () => {
     f.fillText("🦄", 0, 0);
     f.restore();
     
-    f.drawImage(imgmouth, 10, 120);
+    f.save();
+    f.translate(135,160);
+    f.scale(.8,.8);
+    f.drawImage(imgmouth, 0, 0);
+    f.drawImage(imgfrown, -30, -48);
+    f.restore();
   }, 100);
 }
 

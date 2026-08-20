@@ -1,81 +1,20 @@
 ﻿<!doctype html>
+<link rel=stylesheet href=style.css>
 <script src=helpers.js></script>
 <div id=viewport>
-  <div id=rainbow><div></div></div>
+  <div id=rainbow class=intro><div></div></div>
   <div id=camera>
     <div id=scene></div>
   </div>
   <div id=sun></div>
   <div id=unicorn>🦄</div>
-  <div id=fire>🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥</div>
+  <div id=fire>🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥🔥</div>
   <div id=fade></div>
   <canvas id=rain width=720 height=405></canvas>
   <div id=text></div>
 </div>
-<style>
-@font-face { font-family: emoji; src: url(Twemoji.ttf) }
-@keyframes float {
-    0%, 100% { top: -5px; transform: rotate(-8deg); }
-    50%      { top: 5px; transform: rotate(8deg); }
-}
-@keyframes wiggle {
-    0%, 100% { transform: rotate(-3deg); }
-    50%      { transform: rotate(3deg); }
-}
-@keyframes firemove {
-    0%, 100% { transform: translateY(-5px); }
-    50%      { transform: translateY(5px); }
-}
-#viewport{width:720px;height:405px;overflow:hidden;border:1px solid;position:relative;perspective:500px}
-#viewport *{transform-style:preserve-3d;box-sizing:border-box}
-#camera{width:0;height:0;position:absolute;top:50%;left:50%}
-.circle { border-radius: 50% }
-.e { font-face: emoji; font-size: 40px; text-shadow: 0 0 5px #000; }
-.shadow { filter: contrast(0)brightness(0); opacity: .4 }
-.tree, .big.animal { font-size: 50px; text-align:center; overflow: hidden; }
-.flower { font-size: 20px; }
-.animal { font-size: 30px; text-align:center; }
-#viewport { background: linear-gradient(#acf, #eef 39%, #adf 40%, #7af);
-#fade { background: #000; width: 800px; height: 600px; position: absolute; top: 0; }
-.island { background: radial-gradient(#46fb46, #0b7c0b); transition: filter 2s; }
-#sun {
-  width: 1600px;
-  height: 1400px;
-  position: absolute;
-  top: -680px;
-  left: -80px;
-  animation: wiggle 10s ease-in-out infinite;
-  background: radial-gradient(circle, 
-  #fff 0%, #fffb 5%, #fff0 25%), conic-gradient(
-  #fff0 178deg, #fff7 180deg, #fff0 183deg, #fff0 198deg, #fff0 205deg, #fff7 208deg, #fff0 212deg, #fff0 225deg, #fff0 233deg, #fff7 237deg, #fff0 241deg, #fff0 250deg, #fff0 261deg, #fff7 265deg, #fff0 270deg, #fff0 277deg, #fff7 281deg, #fff0 286deg, #fff0 294deg, #fff7 297deg, #fff0 301deg, #fff0 307deg);
-}
-#rainbow div { width: 600px; height: 400px; position: absolute; top: 0px; left: -300px; opacity: 1; transition: opacity 4s; background: radial-gradient(circle,
-   rgba(0,0,0,0) 60%,
-   rgba(192, 0, 255, .8) 65%,
-   rgba(0, 192, 255, .8) 70%,
-   rgba(255, 255, 0, .8) 75%,
-   rgba(255, 0, 0, .8) 80%,
-   rgba(0,0,0,0) 85%
- )
-}
 
-/***new css**/
-
-.crayon { font-size: 30px }
-#rainbow { width: 700px; height: 170px; overflow: hidden; transform: scale(4.2)translateX(92px) translateY(-10px);}
-#rainbow, #sun { transition: opacity 1s; }
-#unicorn { font-size: 180px; position: absolute; top: 220px; left: 550px; text-shadow: 0 0 2px #000; } 
-#text { width: 720px; opacity: 0; position: absolute; top: 500px; transition: opacity 1s, top 3s, line-height 10s; color: #fff; text-align: center; font: 30px Calibri, sans-serif; text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 15px #000, 0 0 15px #000; line-height: 900px; }
-.crayon { transition: all 6s }
-#unicorn { transition: top 1s; }
-#rain { position: absolute; top: 0; opacity: 0; transition: opacity 1s; }
-#fire { font-family: e; font-size: 140px; letter-spacing: -50px; position: absolute; top: 400px; left: -40px; transition: top 1s; animation: firemove .5s ease-in-out infinite; }
-#unicorn, #fire { font-family: emoji; }
-</style>
 <script>
-
-
-
 onload = () => {
   C.plane({n:"island",w:400,h:400,css:"circle island"});
   C.plane({n:"c1",x:-50,w:200,h:200,z:40,rx:-90,sx:.3,sy:.3,css:"crayon",html:crayon("purple")});
@@ -157,11 +96,13 @@ onload = () => {
   setTimeout(()=>{
     fade.style.transition = "background 1s";
     text.innerHTML += "<br>And everything burned !"
-    
   }, 15000);
   
   setTimeout(()=>{
-    fire.style.top = "270px";
+    fire.style.top = "280px";
+  }, 15500);
+  
+  setTimeout(()=>{
     island.style.filter = "brightness(.1)";
   }, 16000);
   
