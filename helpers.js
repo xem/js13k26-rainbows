@@ -111,7 +111,9 @@ tr: t => `translateX(-50%)translateY(-50%)translateX(${t.x}${C.unit})translateY(
 crayon = (color = "#ffffff") => {
   return '<svg width="198" height="198" xmlns="http://www.w3.org/2000/svg">' +
     '<path d="M30 10L10 40L10 140A12 2 0 0 0 50 140L50 40Z" fill="' + color + '" stroke="#000000"/>' +
-    '<path d="M10 40A12 2 0 0 0 50 40L38 22L22 22Z" fill="#f2952c" stroke="#000000"/>' +
+    '<path d="M10 40A12 2 0 0 0 50 40L38 22L22 22Z" fill="#f2952c" stroke="#000000"/><ellipse cx="25" cy="56" rx="2" ry="5" fill="#000000" stroke="#000000"/><ellipse cx="33" cy="56" rx="2" ry="5" fill="#000000" stroke="#000000"/><path d="M20 65Q30 72 37 65Q40 65 39 68Q29 75 21 69Q17 67 20 65" fill="#000000" stroke="#000000"/>' +
+    
+    //"M5 15Q15 22 22 15Q25 15 24 18Q14 25 6 19Q2 17 5 15"
     '</svg>';
 };
 
@@ -139,9 +141,7 @@ thu = (i,q,n) => {
 }
 
 // crayon path
-function drawCrayon(x1, y1, x2, y2, width, color) {
-    const ctx = a.getContext("2d");
-
+function drawCrayon(x1, y1, x2, y2, width, color, ctx = a.getContext("2d")) {
     const dx = x2 - x1;
     const dy = y2 - y1;
     const len = Math.hypot(dx, dy);
@@ -245,4 +245,52 @@ function drawCrayon(x1, y1, x2, y2, width, color) {
     }
 
     ctx.restore();
+}
+
+// create img from paths
+function createDrawing(paths = [{x:1, y:1},{x:100,y:100}]) {
+  tmp.width ^= 0;
+  const ctx = tmp.getContext("2d");
+  var currentpath;
+  var i;
+  for(currentpath of paths){
+    if(currentpath.length > 1){
+      for(i = 1; i < currentpath.length; i++){
+        drawCrayon(
+          currentpath[i - 1].x,
+          currentpath[i - 1].y,
+          currentpath[i].x,
+          currentpath[i].y,
+          20,
+          "#e4cb07",
+          ctx
+        );
+      }
+    }
+  }
+  const img = new Image();
+  img.src = tmp.toDataURL("image/png");
+
+  return img;
+}
+
+// draw board
+drawboard = () => {
+  a.width ^= 0;
+  c.lineWidth = 10;
+  c.fillStyle = "#222";
+  c.strokeStyle = "#733e01";
+  c.beginPath();
+  c.moveTo(200, 0);
+  c.lineTo(200, 50);
+  c.moveTo(500, 0);
+  c.lineTo(500, 50);
+  c.stroke();
+  c.closePath();
+  c.strokeStyle = "#834e11";
+  c.beginPath();
+  c.rect(100, 50, 500, 300);
+  c.fill();
+  c.stroke();
+  c.closePath();
 }

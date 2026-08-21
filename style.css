@@ -11,6 +11,7 @@
     0%, 100% { transform: translateY(-5px); }
     50%      { transform: translateY(5px); }
 }
+* { user-select: none }
 #viewport{width:720px;height:405px;overflow:hidden;border:1px solid;position:relative;perspective:500px}
 #viewport *{transform-style:preserve-3d;box-sizing:border-box}
 #camera{width:0;height:0;position:absolute;top:50%;left:50%}
@@ -22,9 +23,10 @@
 .tree, .big.animal { font-size: 50px; text-align:center; overflow: hidden; }
 .flower { font-size: 20px; }
 .animal { font-size: 30px; text-align:center; }
-#viewport { background: linear-gradient(#acf, #eef 39%, #adf 40%, #7af);
+#viewport { background: linear-gradient(#acf, #eef 39%, #adf 40%, #7af); }
 .island { background: radial-gradient(#46fb46, #0b7c0b); transition: filter 1s; }
 #rainbow { width: 700px; height: 170px; overflow: hidden; }
+
 #rainbow div { width: 600px; height: 400px; position: absolute; top: 0px; left: -300px; opacity: 1; transition: opacity 4s; background: radial-gradient(circle,
    rgba(0,0,0,0) 60%,
    rgba(192, 0, 255, .8) 65%,
@@ -49,7 +51,7 @@
 #b2 { position: relative; animation: float 2s ease-in-out infinite; }
 .animal div { animation: wiggle 2s ease-in-out infinite; }
 #unicorn { font-size: 180px; position: absolute; top: 220px; left: 540px; text-shadow: 0 0 2px #000; }
-#crayon1 { font-size: 110px; position: absolute; top: 320px; left: 450px; text-shadow: 0 0 2px #000; transform: scale(.8) rotate(-5deg); }
+#crayon1 { font-size: 110px; position: absolute; top: 320px; left: 440px; text-shadow: 0 0 2px #000; transform: scale(.8) rotate(-5deg); }
 #crayon2 { font-size: 110px; position: absolute; top: 318px; left: 465px; text-shadow: 0 0 2px #000; transform: scale(.8) rotate(1deg); }
 #crayon3 { font-size: 110px; position: absolute; top: 330px; left: 490px; text-shadow: 0 0 2px #000; transform: scale(.8) rotate(7deg); }
 #fade { background: #000; width: 800px; height: 600px; position: absolute; top: 0; }
@@ -65,11 +67,13 @@
   line-height: 900px;
   transition: top 10s, line-height 10s;
 }
+
 #hud { position: absolute; top: 300px; transition: top 2s; }
 #prologue, #play { border: 2px solid; border-radius: 5px; background: #def; padding: 5px 15px; font: 30px Calibri, sans-serif; position: absolute; top: 350px; color: #f68a9d; cursor: pointer; }
 #prologue { left: 20px; top: 173px; }
 #play { left: 20px; top: 230px; }
-.animal, .tree, .flower, #unicorn, #crayon1, #crayon2, #crayon3 { font-family: emoji }
+.animal, .tree, .flower, #unicorn { font-family: emoji }
+
 
 /* intro */
 
@@ -86,5 +90,11 @@
 
 /* game */
 
-#a { position: absolute; top: 0; left: 0; border: 2px solid; background: #def; }
-#b { position: absolute; top: 0; left: 0; }
+canvas { position: absolute; top: 0; left: 0; }
+#a { top: -405px; transition: top 2s; }
+#b { opacity: 0; transition: opacity 1s; }
+#sky1, #sky2 { position: absolute; top: 0; left: 0; width: 720px; height: 405px; }
+#sky1 { background: linear-gradient(#acf, #eef 40%, #adf 42%); }
+#sky2 { background: linear-gradient(#111, #333 40%, #123 42%); transition: opacity 3s; } 
+#text2 { width: 660px; position: absolute; top: 0; left: 0; font: 30px Calibri, sans-serif; color: #fff; opacity: 0; transition: opacity 1s; padding: 30px; text-align: center; }
+#ok { width: 45px; height: 45px; position: absolute; top: 200px; left: 630px; border: 5px solid #733e01; background: #333; border-radius: 50%; color: #fff; font: bold 25px/45px Calibri, sans-serif; text-align: center; opacity: 0; cursor: pointer; transition: opacity 1s; }

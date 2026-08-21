@@ -1,55 +1,235 @@
 ﻿<!doctype html>
 <link rel=stylesheet href=style.css>
 <script src=helpers.js></script>
+<script src=svg.js></script>
+<script src=story.js></script>
+<div id=sky1></div>
+<div id=sky2></div>
+<div id=sun style=opacity:0></div>
+<canvas width=720 height=405 id=e></canvas>
 <canvas width=720 height=405 id=a></canvas>
 <canvas width=720 height=405 id=b></canvas>
+<div id=ok>OK</div>
+<div id=text2>Unicorny's island had become a desert...</div>
+<canvas id=tmp width=720 height=405 style="top:405px"></canvas>
 <style>
-#a { position: absolute; top: 0; left: 0; border: 2px solid; background: #def; }
-#b { position: absolute; top: 0; left: 0; }
+#tmp { display: none }
 </style>
 <script>
-c=a.getContext("2d"); // bg, finished path
-d=b.getContext("2d"); // crayon
+// drawings
+drawings = {};
+paths = [[]];
 
-c.lineWidth = 5;
-c.fillStyle = "#fff";
-c.strokeStyle = "brown";
-c.beginPath();
-c.moveTo(200, 0);
-c.lineTo(200, 50);
-c.moveTo(500, 0);
-c.lineTo(500, 50);
-c.stroke();
-c.closePath();
-c.beginPath();
-c.rect(100, 50, 500, 300);
-c.fill();
-c.stroke();
-c.closePath();
+// game loop
+onload = () => {
 
+  // tmp
+  imgsun = createDrawing();
+
+  c=a.getContext("2d"); // board, path
+  d=b.getContext("2d"); // crayon / instructions / ok
+  f=e.getContext("2d"); // game, drawings
   
+  // start animations
+  start();
+  
+  // loop
+  setInterval(()=>{
+  
+    // count frames, scroll
+    frame++;
+    if(scrolling) scroll++;
+ 
+    // disable cursor when a crayon is visible
+    if(b.style.opacity == 1) b.style.cursor = "none";
+    else b.style.cursor = "pointer";
+    
+    // unicorn head offset Y
+    uoffsety = 190 + (scrolling ? (Math.cos(frame/10) * 15) : 0);
+    
+    // reset game canvas
+    e.width ^= 0; 
+    
+    // draw:
+    
+    // ground
+    f.beginPath();
+    if(story <= 3){
+      f.fillStyle = "#111";
+    }
+    else {
+      f.fillStyle = "#333";
+    }
+    f.arc(360,1750,1500, 0, 7);
+    f.fill();
+    f.closePath();
+    
+    // drad tree
+    f.font = "150px emoji";
+    f.save();
+    if(story < 4) f.filter = "brightness(5%)";
+    f.translate(1080 - scroll * 3,260);
+    f.scale(1.5,1.5);
+    f.fillText("🪾", 0, 0);
+    f.restore();
+    
+    // unicorn head
+    f.font = "150px emoji";
+    f.save();
+    f.translate(196+uoffsetx,200+uoffsety);
+    f.scale(-1.2,1.2);
+    if(story < 4) f.filter = "brightness(45%)";
+    f.fillText("🦄", 0, 0);
+    f.restore();
+    
+    // emotions:
+    // sad
+    if(story == 0){
+      // sad
+      f.save();
+      f.translate(131+uoffsetx,160+uoffsety);
+      f.scale(1,1);
+      if(story < 4) f.filter = "brightness(45%)";
+      f.drawImage(imgmouth, -14, -10);
+      f.drawImage(imgfrown, -42, -53);
+      f.restore();
+    }
+    
+    // surprised
+    if(story == 1){
+      f.save();
+      f.translate(131+uoffsetx,160+uoffsety);
+      f.scale(1,1);
+      if(story < 4) f.filter = "brightness(45%)";
+      f.drawImage(imgmoutho, -14, -10);
+      f.drawImage(imgfrown, -42, -58);
+      f.restore();
+    }
+    
+    // yellow crayon (in game)
+    f.save();
+    f.translate(1500-scroll*3,220);
+    f.scale(1, 1);
+    if(story < 3){
+      f.drawImage(yellow, 0, 0);
+    }
+    if(story == 3){
+      f.rotate(frame < 50 ? (frame/50 * .5) : .5); 
+      if(frame < 50){
+        f.drawImage(yellow, 0, 0 - ((frame < 50) ? (frame * 4) : 200));
+      }
+      else if(frame < 100){
+        f.drawImage(yellow, 0 + Math.random() * 15, -200 + Math.random() * 15);
+      }
+      else if(frame < 150){
+        f.drawImage(yellow, 0, -200 - ((frame-100) * 6));
+      }
+    }
+    f.restore();
+    
+    // froggy
+    if(story >= 4){
+      f.font = "80px emoji";
+      f.save();
+      f.translate(2000 - scroll * 3,280);
+      f.scale(3, 3);
+      f.drawImage(imgfrogbody, -38, -45);
+      f.restore();
+      f.save();
+      f.translate(2000 - scroll * 3,260);
+      f.scale(1,1);
+      f.fillText("🐸", -10, 40);
+      f.restore();
+      
+    }
+    
+    // rain
+    if(story <= 3){
+      f.beginPath();
+      f.lineWidth = 4;
+      f.strokeStyle = "#346";
+      for(i = 30; i--;){
+        f.moveTo(x = Math.random()*720, y = Math.random()*405)
+        f.lineTo(x-5,y+20);
+      }
+      f.stroke();
+      f.closePath();
+    }
+    
+    // sun
+    if(story >= 3){
+      f.save();
+      f.translate(450,10);
+      f.scale(.5, .5);
+      if(frame > 50){
+        f.globalAlpha = ((frame < 150) ? ((frame - 50) / 150) : 1);
+        f.drawImage(imgsun, 30, -90);
+      }
+      f.restore();
+    }
+    
+    // story progress:
+    // 3 => 4
+    if(story == 3 && frame == 150){
+      setTimeout(()=>{story = 4; story4();}, 1000);
+      sky2.style.opacity = 0;
+      sun.style.opacity = .5;
+    }
+    
+    
+  }, 33);
+  
+  
+  drawboard();
+}
+
+// draw with mouse
 onmousemove = (e) => {
   b.width ^= 0;
-  x = e.pageX;
-  y = e.pageY;
+  var x = e.pageX;
+  var y = e.pageY;
   
   c.beginPath();
   c.rect(100+5, 50+5, 500-10, 300-10);
   c.closePath();
   
-  if(mousedown){
+  // yellow path
+  if(mousedown && story == 2){
     if(c.isPointInPath(x, y)){
       paths[paths.length - 1].push({x,y});
       currentpath = paths[paths.length-1];
       if(currentpath.length > 1){
-        c.lineWidth = 5;
-        c.strokeStyle = "green";
         drawCrayon(
           currentpath[currentpath.length - 2].x,
           currentpath[currentpath.length - 2].y,
           currentpath[currentpath.length - 1].x,
           currentpath[currentpath.length - 1].y,
-          10,
+          15,
+          "#e4cb07"
+        );
+      }
+    }
+    else{
+      if(paths[paths.length-1].length > 0)
+        paths.push([]);
+    }
+    if(paths.flat().length > 50){
+      ok.style.opacity = 1;
+    }
+  }
+  
+  // green path
+  if(mousedown && story == 5){
+    if(c.isPointInPath(x, y)){
+      paths[paths.length - 1].push({x,y});
+      currentpath = paths[paths.length-1];
+      if(currentpath.length > 1){
+        drawCrayon(
+          currentpath[currentpath.length - 2].x,
+          currentpath[currentpath.length - 2].y,
+          currentpath[currentpath.length - 1].x,
+          currentpath[currentpath.length - 1].y,
+          15,
           "green"
         );
       }
@@ -58,19 +238,38 @@ onmousemove = (e) => {
       if(paths[paths.length-1].length > 0)
         paths.push([]);
     }
+    if(paths.flat().length > 50){
+      ok.style.opacity = 1;
+    }
   }
 
-    
-  d.save();
+  // yellow crayon (over the board)
+  if(story == 2){
+    d.font = "20px Calibri, sans-serif";
+    d.fillStyle = "#fff";
+    d.save();
+    d.translate(x,y);
+    d.rotate(-.2);
+    d.scale(.9, .9);
+    d.drawImage(yellow, -30, -10);
+    d.restore();
+  }
   
-  d.translate(x,y);
-  d.rotate(-.2);
-  d.scale(.9, .9);
-  d.drawImage(img, -40, -20);
+  // green crayon (over the board)
+  if(story == 5){
+    d.font = "20px Calibri, sans-serif";
+    d.fillStyle = "#fff";
+    d.save();
+    d.translate(x,y);
+    d.rotate(-.2);
+    d.scale(.9, .9);
+    d.drawImage(green, -30, -10);
+    d.restore();
+  }
   
-  d.restore();
 }
 
+// mouse events
 mousedown = 0;
 onmousedown = () => { 
   mousedown = 1;
@@ -78,11 +277,21 @@ onmousedown = () => {
     paths.push([]);
 }
 onmouseup = () => mousedown = 0;
-paths = [[]];
 
-onload = () => {
-  img = new Image();
-  img.src = `data:image/svg+xml,${encodeURIComponent(crayon("green"))}`;
+// ok button
+ok.onclick = () => {
+  if(paths.flat().length > 50){
+  
+    // sun
+    if(story == 2){
+      imgsun = createDrawing(paths);
+      a.style.top = "-405px";
+      story = 3;
+      frame = 0;
+      ok.style.opacity = 0;
+    }
+  }
 }
+
 
 </script>
