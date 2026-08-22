@@ -11,6 +11,7 @@
 <canvas width=720 height=405 id=b></canvas>
 <div id=ok>OK</div>
 <div id=text2>Unicorny's island had become a desert...</div>
+<div id=fade></div>
 <canvas id=tmp width=720 height=405 style="top:405px"></canvas>
 <style>
 #tmp { display: none }
@@ -19,6 +20,11 @@
 // drawings
 drawings = {};
 paths = [[]];
+
+patches = [];
+for(i = 0; i < 100; i++){
+  patches.push({x:1400+Math.random()*1800, y: 220+Math.random() * 160});
+}
 
 // game loop
 onload = () => {
@@ -54,17 +60,24 @@ onload = () => {
     
     // ground
     f.beginPath();
-    if(story <= 3){
-      f.fillStyle = "#111";
+    if(story < 7){
+      f.fillStyle = "rgb(30,30,30)";
     }
-    else {
-      f.fillStyle = "#333";
+    if(story >= 7){
+      if(frame < 200) {
+        console.log((40-(200 - frame))/40, lerpRGB("rgb(30,30,30)","rgb(100,221,72)", (40-(200 - frame))/40));
+        f.fillStyle = lerpRGB("rgb(30,30,30)","rgb(52,89,13)", (40-(200 - frame))/40);
+      }
+      else {
+        f.fillStyle = "rgb(52,89,13)";
+      }
     }
+    
     f.arc(360,1750,1500, 0, 7);
     f.fill();
     f.closePath();
     
-    // drad tree
+    // dead tree
     f.font = "150px emoji";
     f.save();
     if(story < 4) f.filter = "brightness(5%)";
@@ -72,6 +85,132 @@ onload = () => {
     f.scale(1.5,1.5);
     f.fillText("🪾", 0, 0);
     f.restore();
+    var d, realx;
+    // all the grass
+    if(story == 7){
+      for(var i of patches){
+        f.save();
+        realx = i.x - scroll * 3;
+        d = Math.abs(realx - 260) / 260;
+        f.translate(
+          realx,
+          i.y - Math.cos(d) * 40
+        );
+        f.scale(.3, .3);
+        f.globalAplha = 0;
+        if(frame < 200){
+          //console.log(frame, (40-(200 - frame))/40);
+          f.globalAlpha = (40-(200 - frame))/40;
+        }
+        f.drawImage(imgpatch, 0, 0);
+        f.restore();
+      }
+    }
+    
+    // froggy
+    if(story >= 4){
+      f.font = "80px emoji";
+      f.save();
+      f.translate(2000 - scroll * 3,280);
+      f.scale(3, 3);
+      f.drawImage(imgfrogbody, -38, -45);
+      f.restore();
+      f.save();
+      f.translate(2000 - scroll * 3,260);
+      f.scale(1,1);
+      f.fillText("🐸", -10, 40);
+      f.restore();
+      
+    }
+    
+    // yellow crayon (in game)
+    f.save();
+    f.translate(1500-scroll*3,220);
+    f.scale(1, 1);
+    if(story < 3){
+      f.drawImage(yellow, 0, 0);
+    }
+    if(story == 3){
+      f.rotate(frame < 50 ? (frame/50 * .5) : .5); 
+      if(frame < 50){
+        f.drawImage(yellow, 0, 0 - ((frame < 50) ? (frame * 4) : 200));
+      }
+      else if(frame < 100){
+        f.drawImage(yellow, 0 + Math.random() * 15, -200 + Math.random() * 15);
+      }
+      else if(frame < 150){
+        f.drawImage(yellow, 0, -200 - ((frame-100) * 6));
+      }
+    }
+    f.restore();
+    
+    // green crayon (in game)
+    f.save();
+    f.translate(2170-scroll*3,220);
+    f.scale(1, 1);
+    if(story < 6){
+      f.drawImage(green, 0, 0);
+    }
+    if(story == 6){
+      f.rotate(frame < 50 ? (frame/50 * -.85) : -.85); 
+      if(frame < 50){
+        f.drawImage(green, 0 - ((frame < 50) ? (frame * 4) : 200), 0);
+      }
+      else if(frame < 100){
+        f.drawImage(green, -230 + Math.random() * 15, 0 + Math.random() * 15);
+      }
+      else if(frame < 150){
+        f.drawImage(green, -230, 0 + ((frame-100) * 6));
+      }
+    }
+    f.restore();
+    
+    // rain
+    if(story <= 3){
+      f.beginPath();
+      f.lineWidth = 4;
+      f.strokeStyle = "#346";
+      for(i = 30; i--;){
+        f.moveTo(x = Math.random()*720, y = Math.random()*405)
+        f.lineTo(x-5,y+20);
+      }
+      f.stroke();
+      f.closePath();
+    }
+    
+    // sun
+    if(story >= 3){
+      f.save();
+      f.translate(450,10);
+      f.scale(.5, .5);
+      if(story == 3){
+        if(frame > 50){
+          f.globalAlpha = ((frame < 150) ? ((frame - 50) / 110) : 1);
+          f.drawImage(imgsun, 30, -90);
+        }
+      }
+      else {
+        f.drawImage(imgsun, 30, -90);
+      }
+      f.restore();
+    }
+    
+    if(story >= 6){
+      f.save();
+      f.translate(1850-scroll*3,270);
+      f.scale(.5, .5);
+      if(story == 6){
+        if(frame > 50){
+          //console.log(frame, ((frame < 150) ? ((frame - 50) / 100) : 1));
+          f.globalAlpha = ((frame < 150) ? ((frame - 50) / 100) : 1);
+          f.drawImage(imgpatch, 30, -80);
+        }
+      }
+      else {
+        f.drawImage(imgpatch, 30, -80);
+      }
+      f.restore();
+    }
     
     // unicorn head
     f.font = "150px emoji";
@@ -106,85 +245,28 @@ onload = () => {
       f.restore();
     }
     
-    // yellow crayon (in game)
-    f.save();
-    f.translate(1500-scroll*3,220);
-    f.scale(1, 1);
-    if(story < 3){
-      f.drawImage(yellow, 0, 0);
-    }
-    if(story == 3){
-      f.rotate(frame < 50 ? (frame/50 * .5) : .5); 
-      if(frame < 50){
-        f.drawImage(yellow, 0, 0 - ((frame < 50) ? (frame * 4) : 200));
-      }
-      else if(frame < 100){
-        f.drawImage(yellow, 0 + Math.random() * 15, -200 + Math.random() * 15);
-      }
-      else if(frame < 150){
-        f.drawImage(yellow, 0, -200 - ((frame-100) * 6));
-      }
-    }
-    f.restore();
-    
-    // froggy
-    if(story >= 4){
-      f.font = "80px emoji";
-      f.save();
-      f.translate(2000 - scroll * 3,280);
-      f.scale(3, 3);
-      f.drawImage(imgfrogbody, -38, -45);
-      f.restore();
-      f.save();
-      f.translate(2000 - scroll * 3,260);
-      f.scale(1,1);
-      f.fillText("🐸", -10, 40);
-      f.restore();
-      
-    }
-    
-    // rain
-    if(story <= 3){
-      f.beginPath();
-      f.lineWidth = 4;
-      f.strokeStyle = "#346";
-      for(i = 30; i--;){
-        f.moveTo(x = Math.random()*720, y = Math.random()*405)
-        f.lineTo(x-5,y+20);
-      }
-      f.stroke();
-      f.closePath();
-    }
-    
-    // sun
-    if(story >= 3){
-      f.save();
-      f.translate(450,10);
-      f.scale(.5, .5);
-      if(frame > 50){
-        f.globalAlpha = ((frame < 150) ? ((frame - 50) / 150) : 1);
-        f.drawImage(imgsun, 30, -90);
-      }
-      f.restore();
-    }
-    
     // story progress:
     // 3 => 4
     if(story == 3 && frame == 150){
-      setTimeout(()=>{story = 4; story4();}, 1000);
+      setTimeout(()=>{story = 4; story4();}, 2000);
       sky2.style.opacity = 0;
       sun.style.opacity = .5;
+    }
+    
+    // 6 => 7
+    if(story == 6 && frame == 100){
+      setTimeout(()=>{story = 7; story7();}, 2000);
     }
     
     
   }, 33);
   
   
-  drawboard();
 }
 
 // draw with mouse
 onmousemove = (e) => {
+  if(!window["c"]) return;
   b.width ^= 0;
   var x = e.pageX;
   var y = e.pageY;
@@ -287,6 +369,15 @@ ok.onclick = () => {
       imgsun = createDrawing(paths);
       a.style.top = "-405px";
       story = 3;
+      frame = 0;
+      ok.style.opacity = 0;
+    }
+    
+    // grass
+    if(story == 5){
+      imgpatch = createDrawing(paths, "green");
+      a.style.top = "-405px";
+      story = 6;
       frame = 0;
       ok.style.opacity = 0;
     }

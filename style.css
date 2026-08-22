@@ -54,7 +54,7 @@
 #crayon1 { font-size: 110px; position: absolute; top: 320px; left: 440px; text-shadow: 0 0 2px #000; transform: scale(.8) rotate(-5deg); }
 #crayon2 { font-size: 110px; position: absolute; top: 318px; left: 465px; text-shadow: 0 0 2px #000; transform: scale(.8) rotate(1deg); }
 #crayon3 { font-size: 110px; position: absolute; top: 330px; left: 490px; text-shadow: 0 0 2px #000; transform: scale(.8) rotate(7deg); }
-#fade { background: #000; width: 800px; height: 600px; position: absolute; top: 0; }
+#fade { background: #000; width: 720px; height: 405px; position: absolute; top: 0; left: 0; user-select: none; transition: all 1s }
 #title {
   position: absolute;
   width: 720px;

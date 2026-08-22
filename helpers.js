@@ -248,7 +248,7 @@ function drawCrayon(x1, y1, x2, y2, width, color, ctx = a.getContext("2d")) {
 }
 
 // create img from paths
-function createDrawing(paths = [{x:1, y:1},{x:100,y:100}]) {
+function createDrawing(paths = [{x:1, y:1},{x:100,y:100}], color="#e4cb07") {
   tmp.width ^= 0;
   const ctx = tmp.getContext("2d");
   var currentpath;
@@ -262,7 +262,7 @@ function createDrawing(paths = [{x:1, y:1},{x:100,y:100}]) {
           currentpath[i].x,
           currentpath[i].y,
           20,
-          "#e4cb07",
+          color,
           ctx
         );
       }
@@ -275,7 +275,9 @@ function createDrawing(paths = [{x:1, y:1},{x:100,y:100}]) {
 }
 
 // draw board
-drawboard = () => {
+
+drawboard = (img) => {
+  //console.log(img);
   a.width ^= 0;
   c.lineWidth = 10;
   c.fillStyle = "#222";
@@ -293,4 +295,37 @@ drawboard = () => {
   c.fill();
   c.stroke();
   c.closePath();
+  if(img == 1){
+    c.save();
+    c.scale(1.3,1.3);
+    c.drawImage(imgcircledash, 170, 55);
+    c.restore();
+    c.fillStyle = "#fff8";
+    c.font = "bold 22px Calibri, sans-serif";
+    c.fillText("Draw something that will chase the clouds...", 115, 75);
+    c.fillText("... in your own style !", 395, 335);
+  }
+  
+  if(img == 2){
+    c.fillStyle = "#fff8";
+    c.font = "bold 22px Calibri, sans-serif";
+    c.fillText("Draw some grass for Froggy...", 115, 75);
+    c.save();
+    c.scale(3.3,3.3);
+    c.drawImage(imgpatchdash, 55, 22);
+    c.restore();
+  }
+}
+
+function lerpRGB(rgb1, rgb2, t) {
+    const a = rgb1.match(/\d+/g).map(Number);
+    const b = rgb2.match(/\d+/g).map(Number);
+
+    return `rgb(${
+        Math.round(a[0] + (b[0] - a[0]) * t)
+    },${
+        Math.round(a[1] + (b[1] - a[1]) * t)
+    },${
+        Math.round(a[2] + (b[2] - a[2]) * t)
+    })`;
 }
