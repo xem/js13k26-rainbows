@@ -10,9 +10,27 @@ circledash = '<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://
 
 patchdash = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M22 70L74 70Q72 45 89 32Q72 29 57 54Q56 22 64 12Q45 11 38 52Q35 21 17 21Q28 45 22 70" fill="none" stroke="#ffffff11" stroke-width="3" stroke-dasharray="4 10" stroke-linecap="round"/></svg>';
 
+mountain = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M0 72Q14 67 18 57Q26 6 45 6Q72 7 76 62Q79 71 98 71L98 98L0 98Z" fill="#34590d" stroke="none"/><path d="M9 98M9 98Q8 92 13 90Q12 81 17 82Q16 75 22 76Q24 70 29 72Q32 67 36 68Q45 65 46 68Q52 65 57 69Q63 68 70 72Q75 73 74 76Q79 75 82 80Q88 80 89 84Q94 84 94 87Q98 87 98 89L98 98" fill="#999999" stroke="none"/><ellipse cx="85" cy="89" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="68" cy="84" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="51" cy="88" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="32" cy="83" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="21" cy="89" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="31" cy="89" rx="6" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="42" cy="92" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="60" cy="90" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="73" cy="91" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="80" cy="93" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="67" cy="90" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="42" cy="81" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/></svg>';
+
+mountain2 = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M2 98Q17 82 33 19L59 19Q57 80 97 81L97 98Z" fill="#2255AADD" stroke="none"/></svg>';
+
+waterfalldash = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M36 7Q19 13 28 70Q30 90 13 87M41 14Q27 29 40 69Q45 88 33 89M46 10Q57 42 48 72Q45 87 55 89M51 6Q69 18 62 72Q59 85 69 89M68 71Q68 81 82 75M21 66Q21 80 12 74" fill="none" stroke="#ffffff11" stroke-width="3" stroke-dasharray="3 5" stroke-linecap="round"/></svg>';
+
+bowl = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M21 27L73 27Q81 28 77 34Q83 80 47 84Q12 81 20 34Q16 29 21 27" fill="#ffffff22" stroke="#000000"/><path d="M23 39L74 39Q76 78 47 80Q18 77 23 39" fill="#2255AADD" stroke="none"/></svg>'
+
 yellow = new Image(); yellow.src = `data:image/svg+xml,${encodeURIComponent(crayon("yellow"))}`;
 
 green = new Image(); green.src = `data:image/svg+xml,${encodeURIComponent(crayon("green"))}`;
+
+blue = new Image(); blue.src = `data:image/svg+xml,${encodeURIComponent(crayon("#4fa7e5"))}`;
+
+orange = new Image(); orange.src = `data:image/svg+xml,${encodeURIComponent(crayon("orange"))}`;
+
+red = new Image(); red.src = `data:image/svg+xml,${encodeURIComponent(crayon("red"))}`;
+
+purple = new Image(); purple.src = `data:image/svg+xml,${encodeURIComponent(crayon("purple"))}`;
+
+indigo = new Image(); indigo.src = `data:image/svg+xml,${encodeURIComponent(crayon("indigo"))}`;
 
 imgmouth = new Image(); imgmouth.src = `data:image/svg+xml,${encodeURIComponent(mouth)}`;
 
@@ -25,3 +43,11 @@ imgfrogbody = new Image(); imgfrogbody.src = `data:image/svg+xml,${encodeURIComp
 imgcircledash = new Image(); imgcircledash.src = `data:image/svg+xml,${encodeURIComponent(circledash)}`;
 
 imgpatchdash = new Image(); imgpatchdash.src = `data:image/svg+xml,${encodeURIComponent(patchdash)}`;
+
+imgmountain = new Image(); imgmountain.src = `data:image/svg+xml,${encodeURIComponent(mountain)}`;
+
+imgmountain2 = new Image(); imgmountain2.src = `data:image/svg+xml,${encodeURIComponent(mountain2)}`;
+
+imgbowl = new Image(); imgbowl.src = `data:image/svg+xml,${encodeURIComponent(bowl)}`;
+
+imgwaterfalldash = new Image(); imgwaterfalldash.src = `data:image/svg+xml,${encodeURIComponent(waterfalldash)}`;

@@ -7,7 +7,7 @@
 // 5: draw the grass
 // 6: ok
 // 7: grass, text, scroll
-story = 5;
+story = 0;
 
 
 // Globals:
@@ -85,7 +85,7 @@ story7 = () => {
   setTimeout(()=>{text2.style.opacity = 1 }, 1000);
   setTimeout(()=>{text2.style.opacity = 0; scrolling = 1; fade.style.display = "block" }, 4000);
   setTimeout(()=>{fade.style.background = "#000"; }, 8000);
-  setTimeout(()=>{location = "game2.html"; }, 9000);
+  //setTimeout(()=>{location = "game2.html"; }, 9000);
 }
 
 // debug

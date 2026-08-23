@@ -315,6 +315,16 @@ drawboard = (img) => {
     c.drawImage(imgpatchdash, 55, 22);
     c.restore();
   }
+  
+  if(img == 3){
+    c.fillStyle = "#fff8";
+    c.font = "bold 22px Calibri, sans-serif";
+    c.fillText("Draw a waterfall", 115, 75);
+    c.save();
+    c.scale(2.8,2.8);
+    c.drawImage(imgwaterfalldash, 85, 25);
+    c.restore();
+  }
 }
 
 function lerpRGB(rgb1, rgb2, t) {
