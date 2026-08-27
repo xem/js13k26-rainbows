@@ -1,0 +1,343 @@
+﻿<!doctype html>
+<link rel=stylesheet href=style.css>
+<script src=helpers.js></script>
+<script src=svg.js></script>
+<script src=story.js></script>
+<script src=story2.js></script>
+<script src=story3.js></script>
+<div id=sky1></div>
+<div id=sky2></div>
+<div id=sun style=opacity:0></div>
+<canvas width=720 height=405 id=e></canvas>
+<canvas width=720 height=405 id=a></canvas>
+<canvas width=720 height=405 id=b></canvas>
+<div id=ok>OK</div>
+<div id=text2></div>
+<div id=fade></div>
+<canvas id=tmp width=720 height=405 style="top:405px"></canvas>
+<style>
+#tmp { display: none }
+</style>
+<script>
+// drawings
+drawings = {};
+paths = [[]];
+
+patches = [];
+flowers = [{x:559,y:299},{x:602,y:329},{x:215,y:302},{x:335,y:309},{x:513,y:269},{x:675,y:305},{x:130,y:250}];
+for(i = 0; i < 100; i++){
+  patches.push({x:1400+Math.random()*1800, y: 220+Math.random() * 160});
+}
+
+ghY = 0;
+s3oy = 15;
+
+// game loop
+onload = () => {
+
+  // tmp
+  imgsun = createDrawing();
+
+  c=a.getContext("2d"); // board, path
+  d=b.getContext("2d"); // crayon / instructions / ok
+  f=e.getContext("2d"); // game, drawings
+  
+  // start animations
+  start3();
+  
+  // loop
+  setInterval(()=>{
+  
+    // count frames, scroll
+    frame++;
+    if(scrolling) scroll++;
+    
+    if(story3 == 4 && frame < 50){
+      s3oy --;
+    }
+ 
+    // disable cursor when a crayon is visible
+    if(b.style.opacity == 1) b.style.cursor = "none";
+    else b.style.cursor = "pointer";
+    
+    // unicorn head offset Y
+    uoffsety = 190 + (Math.sin(scroll/10) * 15);
+    
+    // reset game canvas
+    e.width ^= 0; 
+    
+    // draw:
+    
+    // sun
+    f.save();
+    f.translate(450,10);
+    f.scale(.5, .5);
+    f.drawImage(imgsun, 30, -90);
+    f.restore();
+    
+    // ground
+    f.fillStyle = "#34590d";
+    f.fillRect(0,302+s3oy*2, 720, 405);
+ 
+    
+    // tree
+    f.font = "150px emoji";
+    f.save();
+    f.scale(2,2);
+    f.translate(40,140+s3oy);
+    f.fillText("🌳", 0, 0);
+    f.restore();
+    
+        
+    // girafy
+    f.font = "200px emoji";
+    f.save();
+    f.scale(2.5,2.5);
+    f.translate(80,90+s3oy/1.7);
+    f.fillText("🦒", 0, 0);
+    f.restore();
+    
+    // red crayon (in game)
+    f.save();
+    f.translate(310,360+s3oy*2);
+    f.scale(1, 1);
+    f.drawImage(red, 350, -150);
+    f.restore();
+    
+    // apple
+    if(story3 == 2){
+    
+      f.save();
+      f.translate(200,90);
+      f.scale(.4, .4);
+      if(story3 == 2){
+        if(frame > 300){
+          f.globalAlpha = 0;
+        }
+        if(frame > 200){
+          f.globalAlpha = 1-((frame - 200)/100);
+        }
+        else if(frame > 20){
+          f.globalAlpha = (frame - 20)/100;
+        }
+
+        else {
+          f.globalAlpha = 0;
+        }
+      }
+      f.drawImage(imgapple, 0, 0);
+      f.restore();
+    }
+    
+    // girafy head
+    if(story3 >= 2){
+      if(story3 == 2){
+        if(frame > 120 && ghY < 80){
+          ghY++;
+        }
+      }
+      f.font = "200px emoji";
+      f.save();
+      f.scale(2.6,2.6);
+      f.translate(270,-120+ghY*1.4+s3oy/1.7);
+      f.rotate(-2.5);
+      f.fillText("🦒", 0, 0);
+      f.restore();
+    }
+    
+    // purple
+    if(story3 >= 2){
+      if(story3 == 2){
+      }
+      f.save();
+      if(story3 == 4 && frame >= 50 && frame < 150){
+        f.translate(240,-250+ghY*3.5+s3oy*2+(frame-50)*2.5);
+      }
+      else if(story3 == 4 && frame >= 150){
+        f.translate(240,-250+ghY*3.5+s3oy*2 + 250);
+      }
+      else {
+        f.translate(240,-250+ghY*3.5+s3oy*2);
+      }
+      
+      f.scale(.5,.5);
+      f.drawImage(purple, 0, 0);
+      f.restore();
+    }
+    
+    // chick
+    if(story3 >= 2){
+      f.font = "80px emoji";
+      f.save();
+      f.scale(1,1);
+      if(story3 == 4 && frame >= 50 && frame < 150){
+        f.translate(190,-150+ghY*3.5+s3oy*2+(frame-50)*2.5);
+      }
+      else if(story3 == 4 && frame >= 150){
+        f.translate(190,-150+ghY*3.5+s3oy*2+250);
+      }
+      else {
+        f.translate(190,-150+ghY*3.5+s3oy*2);
+      }
+      f.fillText("🐤", 0, 0);
+      f.restore();
+    }
+    
+    // flowers
+    if(story3 >= 4){
+      f.save();
+      if(story3 == 4 && frame >= 50 && frame < 150){
+        f.globalAlpha = (frame - 50) / 100;
+      }
+      else if(story3 == 4 && frame < 50){
+        f.globalAlpha = 0;
+      }
+      else f.globalAlpha = 1;
+      for(i of flowers){
+        f.save();
+        f.translate(i.x-50, i.y);
+        f.scale(.2, .2);
+        f.drawImage(imgflower, 0, 0);
+        //f.font = "120px Arial";
+        //f.fillText(i.x + " " + i.y, 0, 0);
+        f.restore();
+      }
+      f.restore();
+    }
+    
+    // unicorn head
+    f.font = "150px emoji";
+    f.save();
+    f.translate(196+uoffsetx,200+uoffsety);
+    f.scale(-1.2,1.2);
+    f.fillText("🦄", 0, 0 + Math.sin(frame/20)*4);
+    f.restore();
+
+  }, 33);
+}
+
+// draw with mouse
+onmousemove = (e) => {
+  if(!window["c"]) return;
+  b.width ^= 0;
+  var x = e.pageX;
+  var y = e.pageY;
+  
+  c.beginPath();
+  c.rect(100+5, 50+5, 500-10, 300-10);
+  c.closePath();
+  
+  // red path
+  if(mousedown && story3 == 1){
+    if(c.isPointInPath(x, y)){
+      paths[paths.length - 1].push({x,y});
+      currentpath = paths[paths.length-1];
+      if(currentpath.length > 1){
+        drawCrayon(
+          currentpath[currentpath.length - 2].x,
+          currentpath[currentpath.length - 2].y,
+          currentpath[currentpath.length - 1].x,
+          currentpath[currentpath.length - 1].y,
+          15,
+          "red"
+        );
+      }
+    }
+    else{
+      if(paths[paths.length-1].length > 0)
+        paths.push([]);
+    }
+    if(paths.flat().length > 50){
+      ok.style.opacity = 1;
+    }
+  }
+  
+  // red crayon (over the board)
+  if(story3 == 1){
+    d.font = "20px Calibri, sans-serif";
+    d.fillStyle = "#fff";
+    d.save();
+    d.translate(x,y);
+    d.rotate(-.2);
+    d.scale(.9, .9);
+    d.drawImage(red, -30, -10);
+    d.restore();
+  }
+  
+  // purple path
+  if(mousedown && story3 == 3){
+    if(c.isPointInPath(x, y)){
+      paths[paths.length - 1].push({x,y});
+      currentpath = paths[paths.length-1];
+      if(currentpath.length > 1){
+        drawCrayon(
+          currentpath[currentpath.length - 2].x,
+          currentpath[currentpath.length - 2].y,
+          currentpath[currentpath.length - 1].x,
+          currentpath[currentpath.length - 1].y,
+          15,
+          "purple"
+        );
+      }
+    }
+    else{
+      if(paths[paths.length-1].length > 0)
+        paths.push([]);
+    }
+    if(paths.flat().length > 50){
+      ok.style.opacity = 1;
+    }
+  }
+  
+  // purple crayon (over the board)
+  if(story3 == 3){
+    d.font = "20px Calibri, sans-serif";
+    d.fillStyle = "#fff";
+    d.save();
+    d.translate(x,y);
+    d.rotate(-.2);
+    d.scale(.9, .9);
+    d.drawImage(purple, -30, -10);
+    d.restore();
+  }
+}
+
+// mouse events
+mousedown = 0;
+onmousedown = () => { 
+  mousedown = 1;
+  if(paths[paths.length-1].length > 0)
+    paths.push([]);
+}
+onmouseup = () => mousedown = 0;
+
+// ok button
+ok.onclick = () => {
+  if(paths.flat().length > 50){
+  
+    // apple
+    if(story3 == 1){
+      imgapple = createDrawing(paths, "red");
+      a.style.top = "-405px";
+      story3 = 2;
+      story3_2();
+      frame = 0;
+      ok.style.opacity = 0;
+      b.style.opacity = 0;
+    }
+    
+    // flower
+    if(story3 == 3){
+      imgflower = createDrawing(paths, "purple");
+      a.style.top = "-405px";
+      story3 = 4;
+      story3_4();
+      frame = 0;
+      ok.style.opacity = 0;
+      b.style.opacity = 0;
+    }
+  }
+}
+
+
+</script>

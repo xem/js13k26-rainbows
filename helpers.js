@@ -325,6 +325,42 @@ drawboard = (img) => {
     c.drawImage(imgwaterfalldash, 85, 25);
     c.restore();
   }
+  
+  if(img == 4){
+    c.fillStyle = "#fff8";
+    c.font = "bold 22px Calibri, sans-serif";
+    c.fillText("Draw something made of wood to go on the river...", 115, 75);
+    c.fillText("(Unicorny's head for scale)", 345, 335);
+    c.save();
+    c.scale(3.2,3.2);
+    c.drawImage(imgboatdash, 60, 25);
+    c.restore();
+    c.save();
+    c.translate(390,190);
+    c.scale(-2.5,2.5);
+    c.fillText("🦄", 0, 0);
+    c.restore();
+  }
+  
+  if(img == 5){
+    c.fillStyle = "#fff8";
+    c.font = "bold 22px Calibri, sans-serif";
+    c.fillText("Feed this mysterious animal !", 115, 75);
+    c.save();
+    c.scale(3.2,3.2);
+    c.drawImage(imgappledash, 60, 20);
+    c.restore();
+  }
+  
+  if(img == 6){
+    c.fillStyle = "#fff8";
+    c.font = "bold 22px Calibri, sans-serif";
+    c.fillText("A flower for Baby Wa", 115, 75);
+    c.save();
+    c.scale(4,4);
+    c.drawImage(imgflowerdash, 40, 5);
+    c.restore();
+  }
 }
 
 function lerpRGB(rgb1, rgb2, t) {

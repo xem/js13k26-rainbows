@@ -59,130 +59,189 @@ onload = () => {
     
     // draw:
     
-    // sun
-    f.save();
-    f.translate(450,10);
-    f.scale(.5, .5);
-    if(story == 3){
-      if(frame > 50){
-        f.globalAlpha = ((frame < 150) ? ((frame - 50) / 110) : 1);
-        f.drawImage(imgsun, 30, -90);
-      }
-    }
-    else {
+    if(story2 < 5){
+    
+      // sun
+      f.save();
+      f.translate(450,10);
+      f.scale(.5, .5);
       f.drawImage(imgsun, 30, -90);
-    }
-    f.restore();
-    
-    // ground
-    f.fillStyle = "#34590d";
-    f.fillRect(0,302, 720, 405);
-    
-    // blue crayon (in game)
-    f.save();
-    f.translate(350,100);
-    f.rotate(-.3);
-    f.scale(1, 1);
-    
-    if(story2 == 2){
-      if(frame <= 50){
-        f.drawImage(blue, 0 - Math.random() * 15, 0 - Math.random() * 15);
+      f.restore();
+      
+      // ground
+      f.fillStyle = "#34590d";
+      f.fillRect(0,302, 720, 405);
+      
+      // blue crayon (in game)
+      f.save();
+      f.translate(350,100);
+      f.rotate(-.3);
+      f.scale(1, 1);
+      
+      if(story2 == 2){
+        if(frame <= 50){
+          f.drawImage(blue, 0 - Math.random() * 15, 0 - Math.random() * 15);
+        }
+        else if(frame > 50){
+          f.drawImage(blue, 0-(frame-50), 0-(frame-50)*3);
+        }
+        else {
+          f.drawImage(blue, 0, 0);
+        }
       }
-      else if(frame > 50){
-        f.drawImage(blue, 0-(frame-50), 0-(frame-50)*3);
-      }
-      else {
+      else if(story2 < 2){
         f.drawImage(blue, 0, 0);
       }
-    }
-    else {
-      f.drawImage(blue, 0, 0);
-    }
-    f.restore();
-    
-    // mountain
-    f.save();
-    f.translate(310,0);
-    f.scale(4.2, 4.2);
-    f.drawImage(imgmountain, 0, 0);
-    f.restore();
-    
-    // mountain2 (waterfall svg)
-    if(story2 >= 2){
+      f.restore();
+      
+      // mountain
       f.save();
       f.translate(310,0);
       f.scale(4.2, 4.2);
-      if(story2 == 2){
-        if(frame > 150){
-          //f.globalAlpha = ((frame < 250) ? ((frame - 150) / 100) : 1);
-          f.drawImage(
-            imgmountain2,
-            0, 0, 100, Math.min(frame - 150, 100),  // crop source
-            0, 0, 100, Math.min(frame - 150, 100)   // crop dest
-          );
-        }
-      }
-      else {
-        f.drawImage(imgmountain2, 0, 0);
-      } 
+      f.drawImage(imgmountain, 0, 0);
       f.restore();
-    }
-    
-    // bowl
-    f.save();
-    f.translate(190,220);
-    f.scale(2, 2);
-    f.drawImage(imgbowl, 0, 0);
-    f.restore();
-    
-    // waterfall
-    if(story2 >= 2){
+      
+      // mountain2 (waterfall svg)
+      if(story2 >= 2){
+        f.save();
+        f.translate(312,0);
+        f.scale(4.2, 4.2);
+        if(story2 == 2){
+          if(frame > 150){
+            //f.globalAlpha = ((frame < 250) ? ((frame - 150) / 100) : 1);
+            f.drawImage(
+              imgmountain2,
+              0, 0, 100, Math.min(frame - 150, 100),  // crop source
+              0, 0, 100, Math.min(frame - 150, 100)   // crop dest
+            );
+          }
+        }
+        else {
+          f.drawImage(imgmountain2, 0, 0);
+        } 
+        f.restore();
+      }
+      
+      // bowl
       f.save();
-      f.translate(60,0);
-      f.scale(1.2, 1.2);
-      if(story2 == 2){
-        if(frame > 50){
-          f.globalAlpha = ((frame < 150) ? ((frame - 50) / 110) : 1);
+      f.translate(190,220);
+      f.scale(2, 2);
+      f.drawImage(imgbowl, 0, 0);
+      f.restore();
+      
+      // waterfall
+      if(story2 >= 2){
+        f.save();
+        f.translate(60,0);
+        f.scale(1.2, 1.2);
+        if(story2 == 2){
+          if(frame > 50){
+            f.globalAlpha = ((frame < 150) ? ((frame - 50) / 110) : 1);
+            f.drawImage(imgwaterfall, 0, 0);
+          }
+        }
+        else {
           f.drawImage(imgwaterfall, 0, 0);
         }
       }
-      else {
-        f.drawImage(imgwaterfall, 0, 0);
-      }
       f.restore();
-    }
-    
-    // blubbly
-    f.font = "150px emoji";
-    blubblyY = 0;
-    f.save();
-    f.translate(240,350);
-    f.scale(.5,.5);
-    if(story2 >= 2){
-      if(frame > 230 && frame < 290){
-        blubblyY = Math.sin((frame-230)/20)*200;
-        //console.log(frame, blubblyY);
+      
+      // blubbly
+      f.font = "150px emoji";
+      blubblyY = 0;
+      f.save();
+      f.scale(.5,.5);
+      f.translate(240,350);
+      if(story2 >= 2){
+        if(story2 == 2 && frame > 230 && frame < 290){
+          blubblyY = Math.sin((frame-230)/20)*200;
+          //console.log(frame, blubblyY);
+        }
+        if(story2 == 2 && frame > 230){
+          f.fillText("🐟", 0 + (frame-230) * 4, 0 - blubblyY + Math.cos(frame/6)*8);
+        }
+        else if(story2 == 2) {
+          f.fillText("🐟", 0, 0 + Math.cos(frame/6)*8);
+        }
       }
-      if(frame > 230){
-        f.fillText("🐟", 0 + (frame-230) * 4, 0 - blubblyY + Math.cos(frame/6)*8);
-      }
-      else  {
+      else {
         f.fillText("🐟", 0, 0 + Math.cos(frame/6)*8);
       }
+      f.restore();
+      
+      // orange crayon (in game)
+      f.save();
+      if(story2 >= 3){
+        if(story2 == 3 && frame < 50){
+          beavyX = 800;
+        }
+        else if(story2 == 3 && frame >= 50 && frame < 150){
+          beavyX = 800 - (frame - 50) * 3;
+        }
+        else if(story2 >= 3){
+          beavyX = 500;
+        }
+      }
+      f.translate(beavyX,350);
+      f.scale(.7, .7);
+      f.drawImage(orange, 130, -120);
+      f.restore();
+      
+      // beavy
+      beavyX = 800;
+      f.save();
+      if(story2 >= 3){
+        if(story2 == 3 && frame < 50){
+          beavyX = 800;
+        }
+        else if(story2 == 3 && frame >= 50 && frame < 150){
+          beavyX = 800 - (frame - 50) * 3;
+        }
+        else if(story2 >= 3){
+          beavyX = 500;
+        }
+      }
+      f.translate(beavyX,350);
+      f.scale(.5,.5);
+      f.fillText("🦫", 0, 0 + Math.cos(frame/6)*8);
+      f.restore();
+      
+      // unicorn head
+      f.font = "150px emoji";
+      f.save();
+      f.translate(196+uoffsetx,200+uoffsety);
+      f.scale(-1.2,1.2);
+      f.fillText("🦄", 0, 0 + Math.sin(frame/20)*4);
+      f.restore();
     }
-    else {
-      f.fillText("🐟", 0, 0 + Math.cos(frame/6)*8);
+    else if(story2 == 5){
+    
+      // ground
+      f.fillStyle = "#74994d";
+      f.fillRect(0,0, 720, 405);
+      
+      // river
+      f.save();
+      f.translate(0,-130);
+      f.scale(7.3, 7.3);
+      f.drawImage(imgriver, 0, 0);
+      f.restore();
+      
+      // unicorn head
+      f.font = "50px emoji";
+      f.save();
+      f.translate(50 + frame*2.5,40 + frame);
+      f.scale(-1,1);
+      f.fillText("🦄", 0, 0 + Math.sin(frame/20)*4);
+      f.restore();
+      
+      // boat
+      f.save();
+      f.translate(-250 + frame*2.5,-110 + frame);
+      f.scale(.8, .8);
+      f.drawImage(imgboat, 0, 0 + Math.sin(frame/20)*4);
+      f.restore();
     }
-    f.restore();
-    
-    
-    // unicorn head
-    f.font = "150px emoji";
-    f.save();
-    f.translate(196+uoffsetx,200+uoffsety);
-    f.scale(-1.2,1.2);
-    f.fillText("🦄", 0, 0 + Math.sin(frame/20)*4);
-    f.restore();
     
   }, 33);
 }
@@ -234,6 +293,43 @@ onmousemove = (e) => {
     d.drawImage(blue, -30, -10);
     d.restore();
   }
+  
+  // orange path
+  if(mousedown && story2 == 4){
+    if(c.isPointInPath(x, y)){
+      paths[paths.length - 1].push({x,y});
+      currentpath = paths[paths.length-1];
+      if(currentpath.length > 1){
+        drawCrayon(
+          currentpath[currentpath.length - 2].x,
+          currentpath[currentpath.length - 2].y,
+          currentpath[currentpath.length - 1].x,
+          currentpath[currentpath.length - 1].y,
+          15,
+          "orange"
+        );
+      }
+    }
+    else{
+      if(paths[paths.length-1].length > 0)
+        paths.push([]);
+    }
+    if(paths.flat().length > 150){
+      ok.style.opacity = 1;
+    }
+  }
+  
+  // orange crayon (over the board)
+  if(story2 == 4){
+    d.font = "20px Calibri, sans-serif";
+    d.fillStyle = "#fff";
+    d.save();
+    d.translate(x,y);
+    d.rotate(-.2);
+    d.scale(.9, .9);
+    d.drawImage(orange, -30, -10);
+    d.restore();
+  }
 }
 
 // mouse events
@@ -249,14 +345,26 @@ onmouseup = () => mousedown = 0;
 ok.onclick = () => {
   if(paths.flat().length > 150){
   
-    // sun
+    // waterfall
     if(story2 == 1){
       imgwaterfall = createDrawing(paths, "#4fa7e5");
       a.style.top = "-405px";
       story2 = 2;
+      story2_2();
       frame = 0;
       ok.style.opacity = 0;
       b.style.opacity = 0;
+    }
+    
+    // boat
+    if(story2 == 4){
+      imgboat = createDrawing(paths, "orange");
+      a.style.top = "-405px";
+      ok.style.opacity = 0;
+      b.style.opacity = 0;
+      fade.style.display = "block";
+      setTimeout(()=>{fade.style.background = "#000"}, 1500);
+      setTimeout(()=>{story2 = 5; frame = 0; story2_5(); }, 2500);
     }
   }
 }
