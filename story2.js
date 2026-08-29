@@ -5,7 +5,7 @@
 // 3: beavy arrives
 // 4: draw boat
 // 5: cruisin
-story2 = 3;
+story2 = 0;
 beavyX = 0;
 
 imgwaterfall = new Image();

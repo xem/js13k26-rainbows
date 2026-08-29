@@ -7,7 +7,7 @@
 // 5: go to mom
 // 6: draw rainbow
 // 7: end
-story3 = 6;
+story3 = 0;
 imgflower = new Image();
 imgapple = new Image();
 
