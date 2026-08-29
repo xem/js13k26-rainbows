@@ -4,7 +4,12 @@
 // 2: apple ok
 // 3: draw flower
 // 4: flower ok
-story3 = 3;
+// 5: go to mom
+// 6: draw rainbow
+// 7: end
+story3 = 6;
+imgflower = new Image();
+imgapple = new Image();
 
 
 
@@ -19,8 +24,6 @@ story3_1 = () => {
 
 story3_2 = () => {
   text2.style.width = "720px";
-  text2.style.top = "0px";
-  text2.style.padding = "5px 0";
   text2.innerHTML = "“Hello, I am Baby Wa ! Thanks for saving me...”";
   setTimeout(()=>{ text2.style.opacity = 1; }, 7000);
   setTimeout(()=>{ text2.style.opacity = 0; }, 10000);
@@ -50,10 +53,51 @@ story3_4 = () => {
   setTimeout(()=>{ text2.style.opacity = 1; }, 5100);
   setTimeout(()=>{ text2.style.opacity = 0; }, 8000);
   setTimeout(()=>{ fade.style.opacity = 1; }, 9000);
+  setTimeout(()=>{ 
+    story3 = 5;
+    story3_5();
+    frame = 0;
+  }, 10000);
 }
+
+story3_5 = () => {
+  s3oy = -20;
+  fade.style.opacity = 0;
+  setTimeout(()=>{ text2.innerHTML = "Baby Wa was finally reunited with Mama Wa..."; }, 2000);
+  setTimeout(()=>{ text2.style.opacity = 1; }, 2100);
+  setTimeout(()=>{ text2.style.opacity = 0; }, 6000);
+  setTimeout(()=>{ text2.innerHTML = "Mama Wa said: “Let's bring back our rainbow !”"; }, 7000);
+  setTimeout(()=>{ text2.style.opacity = 1; }, 7100);
+  setTimeout(()=>{ text2.style.opacity = 0; }, 11000);
+  setTimeout(()=>{ story3_6(); }, 12000);
+}
+
+story3_6 = () => {
+  story3 = 6;
+  s3oy = -20;
+  paths = [[]];
+  a.style.top = 0;
+  b.style.opacity = 1;
+  drawboard(7); 
+  for(i of ["purple", "indigo", "blue", "green", "yellow", "orange", "red"]){
+    crayons.innerHTML += "<div onclick='pick(\""+i+"\", this)'>"+crayon(i.replace("blue","#4fa7e5").replace("green", "#248620"))+"</div>";
+  }
+  crayons.style.display = "block";
+  b.style.cursor = "pointer";
+  setTimeout(()=>{
+    crayons.style.opacity = 1;
+    //resetb.style.opacity = 1;
+  },100);
+}
+
+story3_7 = () => {
+  fade.style.opacity = 0;
+};
 
 // debug
 start3 = () => {
+  text2.style.top = "0px";
+  text2.style.padding = "5px 20px";
   sky2.style.opacity = 0;
   scrolling = 0;
   text2.style.color = "#000";
@@ -75,9 +119,19 @@ start3 = () => {
   // 4
   else if(story3 == 4) { story3_4(); }
   
+  // 5
+  else if(story3 == 5) { story3_5(); }
+  
+  // 6
+  else if(story3 == 6) { story3_6(); }
+  
+  // 7
+  else if(story3 == 7) { story3_7(); }
+  
   // 0
   else {
     //console.log(story3);
+    
     text2.innerHTML = "“Hi guys, we're up here !”";
     setTimeout(()=>{ text2.style.opacity = 1; }, 1000);
     setTimeout(()=>{ text2.style.opacity = 0; }, 3000);

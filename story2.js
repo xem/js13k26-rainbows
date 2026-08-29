@@ -5,7 +5,8 @@
 // 3: beavy arrives
 // 4: draw boat
 // 5: cruisin
-story2 = 4;
+story2 = 3;
+beavyX = 0;
 
 imgwaterfall = new Image();
 
@@ -26,8 +27,8 @@ story2_2 = () => {
     text2.innerHTML = "“Wait a second, I know someone who will help you go through the stream !”";
   }, 6000);
   setTimeout(()=>{text2.style.opacity = 1;}, 6100);
-  setTimeout(()=>{text2.style.opacity = 0;}, 13000);
-  setTimeout(()=>{story2_3();}, 14000);
+  setTimeout(()=>{text2.style.opacity = 0;}, 14000);
+  setTimeout(()=>{story2_3();}, 15000);
 }
 
 story2_3 = () => {
@@ -70,6 +71,7 @@ story2_5 = () => {
   frame = 0;
   fade.style.opacity = 0;
   setTimeout(()=>{fade.style.opacity = "1"}, 6000);
+  setTimeout(()=>{location = "game3.html"; }, 7000);
 }
 
 // debug

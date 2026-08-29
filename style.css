@@ -98,3 +98,7 @@ canvas { position: absolute; top: 0; left: 0; }
 #sky2 { background: linear-gradient(#111, #333 40%, #123 42%); transition: opacity 3s; } 
 #text2 { width: 660px; position: absolute; top: 0; left: 0; font: 30px Calibri, sans-serif; color: #fff; opacity: 0; transition: opacity 1s; padding: 30px; text-align: center; }
 #ok { width: 45px; height: 45px; position: absolute; top: 200px; left: 630px; border: 5px solid #733e01; background: #333; border-radius: 50%; color: #fff; font: bold 25px/45px Calibri, sans-serif; text-align: center; opacity: 0; cursor: pointer; transition: opacity 1s; }
+#resetb { width: 75px; height: 45px; position: absolute; top: 290px; left: 615px; border: 5px solid #733e01; background: #333; border-radius: 45px; color: #fff; font: bold 25px/45px Calibri, sans-serif; text-align: center; opacity: 0; cursor: pointer; transition: opacity 1s; }
+#crayons { display: none; position: absolute; overflow: hidden; width: 720px; height: 75px; top: 330px; left: 80px; opacity: 0; transition: opacity 1s; }
+#crayons div { display: inline-block; width: 80px; overflow: hidden;  cursor: pointer; transform: scale(1.3, 1); margin-top: 0px; }
+.hidden { opacity: 0 }

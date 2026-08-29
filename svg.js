@@ -22,6 +22,8 @@ appledash = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><pat
 
 flowerdash = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M45 34Q63 19 60 41Q79 54 56 56Q41 79 39 53Q12 55 33 42Q26 17 45 34M46 40Q55 40 50 47Q47 51 42 47Q41 40 45 40" fill="none" stroke="#ffffff11" stroke-width="2" stroke-dasharray="3 6" stroke-linecap="round"/></svg>';
 
+rdash = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M1 89A39 40 0 1 1 98 90L70 90A16 17 0 1 0 25 89Z" fill="none" stroke="#ffffff11" stroke-width="2" stroke-dasharray="3 6" stroke-linecap="round"/></svg>';
+
 bowl = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M21 27L73 27Q81 28 77 34Q83 80 47 84Q12 81 20 34Q16 29 21 27" fill="#ffffff22" stroke="#000000"/><path d="M23 39L74 39Q76 78 47 80Q18 77 23 39" fill="#2255AADD" stroke="none"/></svg>'
 
 river = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M0 16Q10 15 12 22Q16 30 25 28Q34 27 39 34Q47 42 56 40Q66 38 73 45Q79 52 89 53Q98 54 99 57L99 79Q92 74 83 73Q69 71 64 65Q54 59 42 61Q29 61 24 50Q18 42 5 45Q0 45 0 43Z" fill="#4477CC" stroke="none"/></svg>'
@@ -65,5 +67,7 @@ imgappledash = new Image(); imgappledash.src = `data:image/svg+xml,${encodeURICo
 imgboatdash = new Image(); imgboatdash.src = `data:image/svg+xml,${encodeURIComponent(boatdash)}`;
 
 imgflowerdash = new Image(); imgflowerdash.src = `data:image/svg+xml,${encodeURIComponent(flowerdash)}`;
+
+imgrdash = new Image(); imgrdash.src = `data:image/svg+xml,${encodeURIComponent(rdash)}`;
 
 imgriver = new Image(); imgriver.src = `data:image/svg+xml,${encodeURIComponent(river)}`;

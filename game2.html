@@ -150,8 +150,8 @@ onload = () => {
       f.font = "150px emoji";
       blubblyY = 0;
       f.save();
-      f.scale(.5,.5);
       f.translate(240,350);
+      f.scale(.5,.5);
       if(story2 >= 2){
         if(story2 == 2 && frame > 230 && frame < 290){
           blubblyY = Math.sin((frame-230)/20)*200;
@@ -188,21 +188,21 @@ onload = () => {
       f.restore();
       
       // beavy
-      beavyX = 800;
+      beavyX = 770;
       f.save();
       if(story2 >= 3){
         if(story2 == 3 && frame < 50){
-          beavyX = 800;
+          beavyX = 770;
         }
         else if(story2 == 3 && frame >= 50 && frame < 150){
-          beavyX = 800 - (frame - 50) * 3;
+          beavyX = 770 - (frame - 50) * 3;
         }
         else if(story2 >= 3){
-          beavyX = 500;
+          beavyX = 470;
         }
       }
       f.translate(beavyX,350);
-      f.scale(.5,.5);
+      f.scale(.7,.7);
       f.fillText("🦫", 0, 0 + Math.cos(frame/6)*8);
       f.restore();
       

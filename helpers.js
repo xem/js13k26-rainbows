@@ -262,7 +262,7 @@ function createDrawing(paths = [{x:1, y:1},{x:100,y:100}], color="#e4cb07") {
           currentpath[i].x,
           currentpath[i].y,
           20,
-          color,
+          currentpath[i].color || color,
           ctx
         );
       }
@@ -295,6 +295,7 @@ drawboard = (img) => {
   c.fill();
   c.stroke();
   c.closePath();
+  
   if(img == 1){
     c.save();
     c.scale(1.3,1.3);
@@ -306,17 +307,28 @@ drawboard = (img) => {
     c.fillText("... in your own style !", 395, 335);
   }
   
-  if(img == 2){
+  else if(img == 2){
     c.fillStyle = "#fff8";
     c.font = "bold 22px Calibri, sans-serif";
     c.fillText("Draw some grass for Froggy...", 115, 75);
+    c.fillText("You can color inside too !", 355, 335);
+    c.beginPath();
+    c.strokeStyle = "#fff3";
+    c.lineWidth = 5;
+    c.moveTo(435,315);
+    c.lineTo(400,280);
+    c.lineTo(410,280);
+    c.moveTo(398,280);
+    c.lineTo(400,290);
+    c.stroke();
+    c.closePath();
     c.save();
     c.scale(3.3,3.3);
     c.drawImage(imgpatchdash, 55, 22);
     c.restore();
   }
   
-  if(img == 3){
+  else if(img == 3){
     c.fillStyle = "#fff8";
     c.font = "bold 22px Calibri, sans-serif";
     c.fillText("Draw a waterfall", 115, 75);
@@ -326,7 +338,7 @@ drawboard = (img) => {
     c.restore();
   }
   
-  if(img == 4){
+  else if(img == 4){
     c.fillStyle = "#fff8";
     c.font = "bold 22px Calibri, sans-serif";
     c.fillText("Draw something made of wood to go on the river...", 115, 75);
@@ -342,7 +354,7 @@ drawboard = (img) => {
     c.restore();
   }
   
-  if(img == 5){
+  else if(img == 5){
     c.fillStyle = "#fff8";
     c.font = "bold 22px Calibri, sans-serif";
     c.fillText("Feed this mysterious animal !", 115, 75);
@@ -352,13 +364,24 @@ drawboard = (img) => {
     c.restore();
   }
   
-  if(img == 6){
+  else if(img == 6){
     c.fillStyle = "#fff8";
     c.font = "bold 22px Calibri, sans-serif";
     c.fillText("A flower for Baby Wa", 115, 75);
     c.save();
     c.scale(4,4);
     c.drawImage(imgflowerdash, 40, 5);
+    c.restore();
+  }
+  
+  else if(img == 7){
+    c.fillStyle = "#fff8";
+    c.font = "bold 22px Calibri, sans-serif";
+    c.fillText("Let the rainbow shine !", 115, 75);
+    c.fillText("Pick your crayons below !", 355, 335);
+    c.save();
+    c.scale(4,4);
+    c.drawImage(imgrdash, 40, -15);
     c.restore();
   }
 }
@@ -374,4 +397,15 @@ function lerpRGB(rgb1, rgb2, t) {
     },${
         Math.round(a[2] + (b[2] - a[2]) * t)
     })`;
+}
+
+currentcrayon = "";
+pick = (color, div) => {
+  currentcrayon = color;
+  var hiddens = document.querySelectorAll(".hidden");
+  for(var i of hiddens){
+    i.classList.remove("hidden");
+  }
+  div.classList.add("hidden");
+  b.style.cursor = "none";
 }
