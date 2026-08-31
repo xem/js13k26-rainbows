@@ -1,10 +1,10 @@
 ﻿// story2 steps:
 // 0: text
 // 1: draw waterfall
-// 2: waterfall done
+// 2: ok
 // 3: beavy arrives
 // 4: draw boat
-// 5: cruisin
+// 5: ok
 story2 = 0;
 beavyX = 0;
 

@@ -1,12 +1,12 @@
 // story3 steps:
 // 0: text
 // 1: draw apple
-// 2: apple ok
+// 2: ok
 // 3: draw flower
-// 4: flower ok
+// 4: ok
 // 5: go to mom
 // 6: draw rainbow
-// 7: end
+// 7: ok
 story3 = 0;
 imgflower = new Image();
 imgapple = new Image();

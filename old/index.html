@@ -1,0 +1,85 @@
+﻿<!doctype html>
+<link rel=stylesheet href=style.css>
+<script src=helpers.js></script>
+<div id=viewport>
+  <div id=rainbow><div></div></div>
+  <div id=camera>
+    <div id=scene></div>
+  </div>
+  <div id=sun></div>
+  <div id=fade></div>
+  <div id=hud>
+    <div id=unicorn>🦄</div>
+    <div id=crayon1></div>
+    <div id=crayon2></div>
+    <div id=crayon3></div>
+    <button id=prologue>Prologue</button>
+    <button id=play>Play</button>
+  </div>
+  <div id=title>Unicorny and the Mystery of the<br>Amazing Rainbow Crayons<br>which have Unfortunately Disappeared<br> from its Enchanted Island !</div>
+</div>
+
+
+<script>
+C.plane({n:"island",w:400,h:400,css:"circle island"});
+
+items = [{x:-121,y:22},{x:65,y:-116},{x:-15,y:121},{x:68,y:-40},{x:-69,y:-75},{x:91,y:147},{x:-170,y:-54},{x:61,y:84},{x:-5,y:13},{x:-7,y:167},{x:21,y:68},{x:-50,y:79},{x:-163,y:71},{x:37,y:30},{x:20,y:-110},{x:29,y:113},{x:119,y:84},{x:-72,y:-122},{x:9,y:140},{x:-115,y:-120}];
+
+for(i = 0; i < 20; i++){
+  x = items[i].x;
+  y = items[i].y;
+  if(i == 0){
+    C.sprite({x,y,w:90,h:110,rx:90,html:"<div>🦒",css:"e big animal"});
+    C.plane({x:x-5,y,w:90,h:100,rx:0,html:"🦒",css:"e big animal shadow"});
+  }
+  else if(i < 3){
+    C.sprite({x,y,w:90,h:105,rx:90,html:"🌴",css:"e tree"});
+    C.plane({x:x-10,y:y-5,w:90,h:100,rx:0,html:"🌴",css:"e tree shadow"});
+  }
+  else if(i < 5){
+    C.sprite({x,y,w:90,h:110,rx:90,html:"🌳",css:"e tree"});
+    C.plane({x,y,w:90,h:110,rx:0,html:"🌳",css:"e tree shadow"});
+  }
+  else if(i <= 8){
+    C.sprite({x,y,w:30,h:65,rx:90,html:("<div>"+[..."🐤🦫️🪿"][8-i]),css:"e animal"});
+    C.plane({x,y,w:30,h:60,rx:0,html:[..."🐤🦫️🪿"][8-i],css:"e animal shadow"});
+  }
+  else {
+    C.sprite({x,y,w:20,h:45,rx:90,html:[..."🌻🌹🌻🌷🌼️"][i%5],css:"e flower"});
+  }
+}
+C.sprite({x:300,y:10,w:90,h:40,rx:90,html:"<div>🐋",css:"e big animal"});
+C.plane({x:30,y:220,z:140,w:90,h:40,rx:-70,html:"<div id=b2>🕊️",css:"e animal bird"});
+C.camera({z:-500,y:-60,rx:70,rz:200-45});
+rz = 20;
+setTimeout("C.camera({rz});",10);
+setInterval("rz+=45;C.camera({rz})",2000);
+onload = () => {
+  document.body.insertAdjacentHTML("beforeEnd","<style>#scene , .sprite, .shadow { transition: 2s linear }");
+  fade.style.transition = "background 2s";
+  setTimeout(()=>{
+    title.style.top = "0px";
+    title.style.lineHeight = "35px";
+    fade.style.background = "#fff1";
+    C.camera({z:-160});
+  }, 500);
+  setTimeout(()=>{
+    hud.style.top = "0px";
+  }, 11000);
+  
+  crayon1.innerHTML = crayon("#f33030");
+  crayon2.innerHTML = crayon("#25902e");
+  crayon3.innerHTML = crayon("#9e3ec9");
+}
+
+prologue.onclick = () => location = "prologue.html";
+play.onclick = () => {
+  fade.style.background = "#000";
+  hud.style.top = "400px";
+  title.style.top = "-500px";
+  setTimeout(()=>{
+    location = "intro.html";
+  }, 3000);
+}
+</script>
+
