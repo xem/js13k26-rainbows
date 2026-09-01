@@ -144,7 +144,7 @@ if(1){
   imgrainbow = new Image(); imgrainbow.src = localStorage.unicorny_imgrainbow || "";
 
   // story number
-  storynb = 0;
+  storynb = 2;
 
   // drawings
   drawings = {};
@@ -199,6 +199,9 @@ if(1){
   // beaver position
   beavyX = 0;
   
+  // unicorny offset x
+  s2ox = -60;
+  
   // Story 3 vars
   // ============
   
@@ -211,7 +214,7 @@ if(1){
   // 5: go to mom
   // 6: draw rainbow
   // 7: end
-  story3 = 0;
+  story3 = 7;
 
   // flowers
   flowers = [{x:559,y:299},{x:602,y:329},{x:215,y:302},{x:335,y:309},{x:513,y:269},{x:675,y:305},{x:130,y:250}];
@@ -221,6 +224,12 @@ if(1){
   
   // scene Y offset
   s3oy = 15;
+  
+  // ending
+  // ======
+  
+  ending = 0;
+  zoom = 10;
   
 }
 
@@ -650,6 +659,7 @@ if(1){
   mountainbed = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M9 98M9 98Q8 92 13 90Q12 81 17 82Q16 75 22 76Q24 70 29 72Q32 67 36 68Q45 65 46 68Q52 65 57 69Q63 68 70 72Q75 73 74 76Q79 75 82 80Q88 80 89 84Q94 84 94 87Q98 87 98 89L98 98" fill="#999999" stroke="none"/><ellipse cx="85" cy="89" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="68" cy="84" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="51" cy="88" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="32" cy="83" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="21" cy="89" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="31" cy="89" rx="6" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="42" cy="92" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="60" cy="90" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="73" cy="91" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="80" cy="93" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="67" cy="90" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="42" cy="81" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/></svg>';
   mountain2 = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M2 98Q17 82 33 19L59 19Q57 80 97 81L97 98Z" fill="#2255AADD" stroke="none"/></svg>';
   waterfalldash = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M36 7Q19 13 28 70Q30 90 13 87M41 14Q27 29 40 69Q45 88 33 89M46 10Q57 42 48 72Q45 87 55 89M51 6Q69 18 62 72Q59 85 69 89M68 71Q68 81 82 75M21 66Q21 80 12 74" fill="none" stroke="#ffffff11" stroke-width="3" stroke-dasharray="3 5" stroke-linecap="round"/></svg>';
+  endmountain = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M11 38Q17 0 39 32Z" fill="#34590d" stroke="none"/><path d="M18 23L24 21Q31 35 45 40Q57 44 62 53Q68 63 81 64Q94 66 98 74L90 82Q88 72 72 71Q61 68 53 56Q49 48 34 45Q18 39 18 23" fill="#4477CC" stroke="none"/></svg>'
   boatdash = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M8 37L92 37Q89 58 75 65L24 65Q9 55 8 37" fill="none" stroke="#ffffff11" stroke-width="3" stroke-dasharray="3 5" stroke-linecap="round"/></svg>';
   appledash = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M50 33Q67 24 76 41Q81 62 66 68Q54 70 53 68Q51 71 38 72Q22 71 24 49Q26 27 49 33Q45 21 58 14" fill="none" stroke="#ffffff11" stroke-width="3" stroke-dasharray="3 5" stroke-linecap="round"/></svg>';
   flowerdash = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M45 34Q63 19 60 41Q79 54 56 56Q41 79 39 53Q12 55 33 42Q26 17 45 34M46 40Q55 40 50 47Q47 51 42 47Q41 40 45 40" fill="none" stroke="#ffffff11" stroke-width="2" stroke-dasharray="3 6" stroke-linecap="round"/></svg>';
@@ -670,6 +680,7 @@ if(1){
   imgcircledash = new Image(); imgcircledash.src = `data:image/svg+xml,${encodeURIComponent(circledash)}`;
   imgpatchdash = new Image(); imgpatchdash.src = `data:image/svg+xml,${encodeURIComponent(patchdash)}`;
   imgmountain = new Image(); imgmountain.src = `data:image/svg+xml,${encodeURIComponent(mountain)}`;
+  imgendmountain = new Image(); imgendmountain.src = `data:image/svg+xml,${encodeURIComponent(endmountain)}`;
   imgmountainbed = new Image(); imgmountainbed.src = `data:image/svg+xml,${encodeURIComponent(mountainbed)}`;
   imgmountain2 = new Image(); imgmountain2.src = `data:image/svg+xml,${encodeURIComponent(mountain2)}`;
   imgbowl = new Image(); imgbowl.src = `data:image/svg+xml,${encodeURIComponent(bowl)}`;
@@ -826,24 +837,6 @@ introjs = () => {
       ctx.stroke();
     },50);
     
-    AA = new AudioContext();
-
-    bs = 4096;
-    wn = AA.createScriptProcessor(bs, 1, 1);
-
-    wn.onaudioprocess = (e) => {
-        const output = e.outputBuffer.getChannelData(0);
-        for (let i = 0; i < bs; i++) {
-            output[i] = (Math.random() * 2 - 1) / 220;
-        }
-    };
-
-    gain = AA.createGain();
-    gain.gain.value = 1;
-
-    wn.connect(gain);
-    gain.connect(AA.destination);
-    
   }, 10300);
   
   setTimeout(()=>{
@@ -861,10 +854,6 @@ introjs = () => {
   
   setTimeout(()=>{
     fade.style.background = "#000";
-    gain.gain.linearRampToValueAtTime(0, AA.currentTime + 5);
-    //setTimeout(() => {
-      //gain.gain.linearRampToValueAtTime(1, AA.currentTime + 5);
-    //}, 3000);
   }, 22000);
   
   setTimeout(()=>{
@@ -898,6 +887,7 @@ if(1){
   story1_3 = () => { b.style.opacity = 0; }
 
   story1_4 = () => {
+    gain.gain.linearRampToValueAtTime(0, AA.currentTime + 5);
     scrolling = 1;
     text2.style.color = "#000";
     text2.style.fontWeight = "bold";
@@ -949,6 +939,9 @@ if(1){
     a.style.top = "-405px";
     b.style.opacity = 0;
     setTimeout(()=>{
+      gain.gain.linearRampToValueAtTime(1, AA.currentTime + 3);
+    }, 4500);
+    setTimeout(()=>{
       text2.style.paddingTop = "5px";
       text2.innerHTML = "“Wait a second, I know someone who will help you go through the stream !”";
     }, 6000);
@@ -997,7 +990,7 @@ if(1){
     frame = 0;
     fade.style.opacity = 0;
     b.style.opacity = 0;
-    setTimeout(()=>{fade.style.opacity = "1"}, 6000);
+    setTimeout(()=>{fade.style.opacity = 1; gain.gain.linearRampToValueAtTime(0, AA.currentTime + 3); }, 6000);
     setTimeout(()=>{start(3); }, 7000);
   }
 }
@@ -1071,7 +1064,7 @@ if(1){
     paths = [[]];
     a.style.top = 0;
     b.style.opacity = 1;
-    //fade.style.display = "none";
+    fade.style.display = "none";
     drawboard(7); 
     for(i of ["purple", "indigo", "blue", "green", "yellow", "orange", "red"]){
       crayons.innerHTML += "<div onclick='pick(\""+i+"\", this)'>"+crayon(i.replace("blue","#4fa7e5").replace("green", "#248620"))+"</div>";
@@ -1085,8 +1078,25 @@ if(1){
 
   story3_7 = () => {
     b.style.opacity = 0;
-    fade.style.opacity = 0;
+    fade.style.display = "block";
+    setTimeout(()=>{ fade.style.opacity = 1;}, 1000);
+    setTimeout(()=>{ end(); }, 2000)
   };
+}
+
+/* == END == */
+end = () => {
+  fade.style.opacity = 0;
+  ending = 1;
+  frame = 0;
+  scroll = 0;
+  scrolling = 0;
+  setTimeout(()=>{ fade.style.display = "none"; }, 1000);
+  patches = [];
+  for(i = 0; i < 100; i++){
+    patches.push({x:Math.random()*740 - 370, y: Math.random() * 200});
+  }
+  
 }
 
 /* === STORY START === */
@@ -1156,6 +1166,7 @@ start = (nb) => {
   
   // story 2
   else if(nb == 2){
+    s2ox = -60;
     sky2.style.opacity = 0;
     sun.style.opacity = 1;
     scrolling = 0;
@@ -1394,6 +1405,16 @@ loop = () => {
   if(story3 == 4 && frame < 50){
     s3oy --;
   }
+  
+  if(storynb == 2 && s2ox < 0){
+    s2ox ++;
+  }
+  
+  if(ending == 1 && zoom > 1){
+    zoom **= .99;
+  }
+  
+  //zoom = 1;
 
   // disable cursor when a crayon is visible
   if(b.style.opacity == 1) b.style.cursor = "none";
@@ -1407,7 +1428,76 @@ loop = () => {
   
   
   // draw:
-  if(storynb == 1){
+  // =====
+  
+  // ending
+  if(ending == 1){
+  
+    f.save();
+    f.translate(360, 200);
+    f.scale(zoom, zoom);
+    sunw.style.height = "160px";
+    
+    // sun
+    f.save();
+    f.scale(.3, .3);
+    f.drawImage(imgsun, 720, -700);
+    f.restore();
+  
+    // ground
+    f.beginPath();
+    f.fillStyle = "rgb(52,89,13)";
+    f.arc(0,1270,1250, 0, 7);
+    f.fill();
+    f.closePath();
+    
+    // grass
+    for(var i of patches){
+      newx = i.x;
+      newy = i.y;
+      f.drawImage(imgpatch, newx, newy+60, 60, 40);
+    }
+    
+    // frog/mountain/waterfall/river/beaver/boat
+    f.drawImage(imgendmountain, -360+100, -70, 370, 370);
+    f.drawImage(imgwaterfall, -350+100, -30, 180, 140);
+    f.drawImage(imgboat, -130, 50, 180, 140);
+    f.font = "40px emoji";
+    f.fillText("🦫", -320+100, 90);
+    f.drawImage(imgfrogbody, -345, 87, 80, 70);
+    f.font = "25px emoji";
+    f.fillText("🐸", -320, 120);
+    
+    // trees
+    f.font = "60px emoji";
+    f.fillText("🌳", -390, 120);
+    f.fillText("🌳", 70, 80);
+    f.fillText("🌳", 270, 130);
+    
+    // girafe/chick/goose/fish
+    f.font = "100px emoji";
+    f.fillText("🦒", 120, 80);
+    f.font = "30px emoji";
+    f.fillText("🐥", 190, 120);
+    f.fillText("🪿", 220, 120);
+    f.fillText("🐟", 20, 190);
+    
+    // crayons
+    f.drawImage(purple, -50-20, -10, 50, 50);
+    f.drawImage(indigo, -30-20, -10, 50, 50);
+    f.drawImage(blue, -10-20, -10, 50, 50);
+    f.drawImage(green, 10-20, -10, 50, 50);
+    f.drawImage(yellow, 30-20, -10, 50, 50);
+    f.drawImage(orange, 50-20, -10, 50, 50);
+    f.drawImage(red, 70-20, -10, 50, 50);
+    
+    // rainbow 
+    f.globalAlpha = 0.5;
+    f.drawImage(imgrainbow, -400, -300, 800, 400);
+  }
+  
+  // story 1
+  else if(storynb == 1){
   
     // ground
     f.beginPath();
@@ -1623,6 +1713,7 @@ loop = () => {
     }
   }
   
+  // story 2
   else if(storynb == 2){
     if(story2 < 5){
     
@@ -1790,7 +1881,7 @@ loop = () => {
       // unicorn head
       f.font = "150px emoji";
       f.save();
-      f.translate(196+uoffsetx,200+uoffsety);
+      f.translate(196+uoffsetx+s2ox,200+uoffsety);
       f.scale(-1.2,1.2);
       f.fillText("🦄", 0, 0 + Math.sin(frame/20)*4);
       f.restore();
@@ -1839,6 +1930,7 @@ loop = () => {
     }
   }
   
+  // story3
   else if(storynb == 3){
   
     // sun
@@ -2353,11 +2445,28 @@ if(1){
 }
 
 /* === START === */
-
 onload = () => {
-  titlejs();
+  //titlejs();
   // introjs();
-  //storysetup(3);
+  storysetup(3);
+  
+  // audio setup
+  AA = new AudioContext();
+  bs = 4096;
+  wn = AA.createScriptProcessor(bs, 1, 1);
+
+  wn.onaudioprocess = (e) => {
+      const output = e.outputBuffer.getChannelData(0);
+      for (let i = 0; i < bs; i++) {
+          output[i] = (Math.random() * 2 - 1) / 220;
+      }
+  };
+
+  gain = AA.createGain();
+  gain.gain.value = 0;
+
+  wn.connect(gain);
+  gain.connect(AA.destination);
 };
 
 </script>
