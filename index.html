@@ -134,6 +134,15 @@ canvas { position: absolute; top: 0; left: 0; }
 /* === GLOBALS === */
 if(1){
 
+  // retrieve from localstorage (tmp)
+  imgsun = new Image(); imgsun.src = localStorage.unicorny_imgsun || "";
+  imgpatch = new Image(); imgpatch.src = localStorage.unicorny_imgpatch || "";
+  imgwaterfall = new Image(); imgwaterfall.src = localStorage.unicorny_imgwaterfall || "";
+  imgboat = new Image(); imgboat.src = localStorage.unicorny_imgboat || "";
+  imgapple = new Image(); imgapple.src = localStorage.unicorny_imgapple || "";
+  imgflower = new Image(); imgflower.src = localStorage.unicorny_imgflower || "";
+  imgrainbow = new Image(); imgrainbow.src = localStorage.unicorny_imgrainbow || "";
+
   // story number
   storynb = 0;
 
@@ -212,9 +221,6 @@ if(1){
   
   // scene Y offset
   s3oy = 15;
-  
-  // tmp
-  imgsun = new Image();
   
 }
 
@@ -640,7 +646,8 @@ if(1){
   frogbody = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M50 41L35 49L35 53Q22 50 32 64L29 60Q17 61 22 64Q16 68 25 67Q18 73 32 68L42 68Q51 71 59 68L68 68Q83 72 76 67Q85 68 79 64Q86 61 70 61L69 63Q78 50 67 54L66 48Z" fill="#658700" stroke="#000000"/><path d="M35 49Q34 62 35 66Q27 73 35 71Q38 77 40 70Q49 75 42 67Q39 66 40 50L61 50Q63 63 60 66Q52 75 61 70Q64 77 66 70Q75 76 67 65Q67 48 66 48L50 41Z" fill="#85A700" stroke="#000000"/></svg>';
   circledash = '<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"><circle cx="100" cy="100" r="80" fill="none" stroke="#ffffff11" stroke-width="12" stroke-dasharray="15 41" stroke-linecap="round"/></svg>';
   patchdash = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M22 70L74 70Q72 45 89 32Q72 29 57 54Q56 22 64 12Q45 11 38 52Q35 21 17 21Q28 45 22 70" fill="none" stroke="#ffffff11" stroke-width="3" stroke-dasharray="4 10" stroke-linecap="round"/></svg>';
-  mountain = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M0 72Q14 67 18 57Q26 6 45 6Q72 7 76 62Q79 71 98 71L98 98L0 98Z" fill="#34590d" stroke="none"/><path d="M9 98M9 98Q8 92 13 90Q12 81 17 82Q16 75 22 76Q24 70 29 72Q32 67 36 68Q45 65 46 68Q52 65 57 69Q63 68 70 72Q75 73 74 76Q79 75 82 80Q88 80 89 84Q94 84 94 87Q98 87 98 89L98 98" fill="#999999" stroke="none"/><ellipse cx="85" cy="89" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="68" cy="84" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="51" cy="88" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="32" cy="83" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="21" cy="89" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="31" cy="89" rx="6" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="42" cy="92" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="60" cy="90" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="73" cy="91" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="80" cy="93" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="67" cy="90" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="42" cy="81" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/></svg>';
+  mountain = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M0 72Q14 67 18 57Q26 6 45 6Q72 7 76 62Q79 71 98 71L98 98L0 98Z" fill="#34590d" stroke="none"/></svg>';
+  mountainbed = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M9 98M9 98Q8 92 13 90Q12 81 17 82Q16 75 22 76Q24 70 29 72Q32 67 36 68Q45 65 46 68Q52 65 57 69Q63 68 70 72Q75 73 74 76Q79 75 82 80Q88 80 89 84Q94 84 94 87Q98 87 98 89L98 98" fill="#999999" stroke="none"/><ellipse cx="85" cy="89" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="68" cy="84" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="51" cy="88" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="32" cy="83" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="21" cy="89" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="31" cy="89" rx="6" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="42" cy="92" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="60" cy="90" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="73" cy="91" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="80" cy="93" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="67" cy="90" rx="5" ry="3" fill="#c4c4c4" stroke="#000000"/><ellipse cx="42" cy="81" rx="4" ry="3" fill="#c4c4c4" stroke="#000000"/></svg>';
   mountain2 = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M2 98Q17 82 33 19L59 19Q57 80 97 81L97 98Z" fill="#2255AADD" stroke="none"/></svg>';
   waterfalldash = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M36 7Q19 13 28 70Q30 90 13 87M41 14Q27 29 40 69Q45 88 33 89M46 10Q57 42 48 72Q45 87 55 89M51 6Q69 18 62 72Q59 85 69 89M68 71Q68 81 82 75M21 66Q21 80 12 74" fill="none" stroke="#ffffff11" stroke-width="3" stroke-dasharray="3 5" stroke-linecap="round"/></svg>';
   boatdash = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M8 37L92 37Q89 58 75 65L24 65Q9 55 8 37" fill="none" stroke="#ffffff11" stroke-width="3" stroke-dasharray="3 5" stroke-linecap="round"/></svg>';
@@ -663,6 +670,7 @@ if(1){
   imgcircledash = new Image(); imgcircledash.src = `data:image/svg+xml,${encodeURIComponent(circledash)}`;
   imgpatchdash = new Image(); imgpatchdash.src = `data:image/svg+xml,${encodeURIComponent(patchdash)}`;
   imgmountain = new Image(); imgmountain.src = `data:image/svg+xml,${encodeURIComponent(mountain)}`;
+  imgmountainbed = new Image(); imgmountainbed.src = `data:image/svg+xml,${encodeURIComponent(mountainbed)}`;
   imgmountain2 = new Image(); imgmountain2.src = `data:image/svg+xml,${encodeURIComponent(mountain2)}`;
   imgbowl = new Image(); imgbowl.src = `data:image/svg+xml,${encodeURIComponent(bowl)}`;
   imgwaterfalldash = new Image(); imgwaterfalldash.src = `data:image/svg+xml,${encodeURIComponent(waterfalldash)}`;
@@ -878,7 +886,7 @@ if(1){
   story1_1 = () => {
     drawboard(1);
     setTimeout(() => { text2.style.opacity = 0; scrolling = 0; }, 2000);
-    setTimeout(() => { text2.innerHTML = "The crayon said:<br>“you can use me to brighten the sky!”"; text2.style.opacity = 1; }, 4000);
+    setTimeout(() => { text2.innerHTML = "The crayon said:<br>“you can use me to brighten the sky !”"; text2.style.opacity = 1; }, 4000);
     setTimeout(() => { text2.style.opacity = 0; }, 7000);
     setTimeout(() => { story = 2; a.style.top = 0; story1_2(); }, 10000);
   }
@@ -941,6 +949,7 @@ if(1){
     a.style.top = "-405px";
     b.style.opacity = 0;
     setTimeout(()=>{
+      text2.style.paddingTop = "5px";
       text2.innerHTML = "“Wait a second, I know someone who will help you go through the stream !”";
     }, 6000);
     setTimeout(()=>{text2.style.opacity = 1;}, 6100);
@@ -1029,6 +1038,7 @@ if(1){
     b.style.opacity = 0;
     frame = 0;
     ghY = 80;
+    console.log(fade);
     fade.style.display = "block";
     fade.style.background = "#000";
     fade.style.opacity = 0;
@@ -1061,7 +1071,7 @@ if(1){
     paths = [[]];
     a.style.top = 0;
     b.style.opacity = 1;
-    fade.style.display = "none";
+    //fade.style.display = "none";
     drawboard(7); 
     for(i of ["purple", "indigo", "blue", "green", "yellow", "orange", "red"]){
       crayons.innerHTML += "<div onclick='pick(\""+i+"\", this)'>"+crayon(i.replace("blue","#4fa7e5").replace("green", "#248620"))+"</div>";
@@ -1147,6 +1157,7 @@ start = (nb) => {
   // story 2
   else if(nb == 2){
     sky2.style.opacity = 0;
+    sun.style.opacity = 1;
     scrolling = 0;
     text2.style.color = "#000";
     text2.style.fontWeight = "bold";
@@ -1192,10 +1203,11 @@ start = (nb) => {
   
   // story 3
   else if(nb == 3){
+    sky2.style.opacity = 0;
+    sun.style.opacity = .5;
     text2.style.width = "680px";
     text2.style.top = "0px";
     text2.style.padding = "5px 20px";
-    sky2.style.opacity = 0;
     scrolling = 0;
     text2.style.color = "#000";
     text2.style.fontWeight = "bold";
@@ -1226,13 +1238,15 @@ start = (nb) => {
     
     // 0
     else {
+      scroll = -100;
+      scrolling = 1;
       text2.innerHTML = "“Hi guys, we're up here !”";
-      setTimeout(()=>{ text2.style.opacity = 1; }, 1000);
-      setTimeout(()=>{ text2.style.opacity = 0; }, 3000);
-      setTimeout(()=>{ text2.innerHTML = "“I wish there was something to eat on that tree...”";}, 4000);
-      setTimeout(()=>{ text2.style.opacity = 1; }, 4100);
-      setTimeout(()=>{ text2.style.opacity = 0; }, 7000);
-      setTimeout(()=>{ story3 = 1; story3_1(); }, 7000);
+      setTimeout(()=>{ text2.style.opacity = 1; }, 4000);
+      setTimeout(()=>{ text2.style.opacity = 0; }, 6000);
+      setTimeout(()=>{ text2.innerHTML = "“I wish there was something to eat on that tree...”";}, 7000);
+      setTimeout(()=>{ text2.style.opacity = 1; }, 7100);
+      setTimeout(()=>{ text2.style.opacity = 0; }, 10000);
+      setTimeout(()=>{ story3 = 1; story3_1(); }, 11000);
     }
   }
 }
@@ -1267,9 +1281,11 @@ storysetup = (nb) => {
     if(paths.flat().length > 50){
     
       if(storynb == 1){
+      
         // sun
         if(story == 2){
           imgsun = createDrawing(paths);
+          localStorage.unicorny_imgsun = imgsun.src;
           a.style.top = "-405px";
           story = 3;
           frame = 0;
@@ -1279,6 +1295,7 @@ storysetup = (nb) => {
         // grass
         if(story == 5){
           imgpatch = createDrawing(paths, "green");
+          localStorage.unicorny_imgpatch = imgpatch.src;
           a.style.top = "-405px";
           story = 6;
           frame = 0;
@@ -1290,6 +1307,7 @@ storysetup = (nb) => {
         // waterfall
         if(story2 == 1){
           imgwaterfall = createDrawing(paths, "#4fa7e5");
+          localStorage.unicorny_imgwaterfall = imgwaterfall.src;
           a.style.top = "-405px";
           story2 = 2;
           story2_2();
@@ -1301,6 +1319,7 @@ storysetup = (nb) => {
         // boat
         if(story2 == 4){
           imgboat = createDrawing(paths, "orange");
+          localStorage.unicorny_imgboat = imgboat.src;
           a.style.top = "-405px";
           ok.style.opacity = 0;
           b.style.opacity = 0;
@@ -1314,6 +1333,7 @@ storysetup = (nb) => {
         // apple
         if(story3 == 1){
           imgapple = createDrawing(paths, "red");
+          localStorage.unicorny_imgapple = imgapple.src;
           a.style.top = "-405px";
           story3 = 2;
           story3_2();
@@ -1325,6 +1345,7 @@ storysetup = (nb) => {
         // flower
         if(story3 == 3){
           imgflower = createDrawing(paths, "purple");
+          localStorage.unicorny_imgflower = imgflower.src;
           a.style.top = "-405px";
           story3 = 4;
           story3_4();
@@ -1335,7 +1356,8 @@ storysetup = (nb) => {
         
         // rainbow
         if(story3 == 6){
-          imgflower = createDrawing(paths);
+          imgrainbow = createDrawing(paths);
+          localStorage.unicorny_imgrainbow = imgrainbow.src;
           a.style.top = "-405px";
           ok.style.opacity = 0;
           b.style.opacity = 0;
@@ -1357,13 +1379,16 @@ storysetup = (nb) => {
   }
 }
 
-/* === GAME LOOP === */ 
+/* === GAME LOOP / GRAPHICS === */ 
 loop = () => {
 
   // count frames, scroll
   frame++;
   story4_frame++;
   if(scrolling) scroll++;
+  if(storynb == 3 && scroll == 0){
+    scrolling = 0;
+  }
   
   // story3 scene Y offset
   if(story3 == 4 && frame < 50){
@@ -1383,6 +1408,7 @@ loop = () => {
   
   // draw:
   if(storynb == 1){
+  
     // ground
     f.beginPath();
     if(story < 7){
@@ -1390,7 +1416,6 @@ loop = () => {
     }
     if(story >= 7){
       if(frame < 200) {
-        //console.log((40-(200 - frame))/40, lerpRGB("rgb(30,30,30)","rgb(100,221,72)", (40-(200 - frame))/40));
         f.fillStyle = lerpRGB("rgb(30,30,30)","rgb(52,89,13)", (40-(200 - frame))/40);
       }
       else {
@@ -1541,7 +1566,6 @@ loop = () => {
       f.scale(.4, .4);
       if(story == 6){
         if(frame > 50){
-          //console.log(frame, ((frame < 150) ? ((frame - 50) / 100) : 1));
           f.globalAlpha = ((frame < 150) ? ((frame - 50) / 100) : 1);
           f.drawImage(imgpatch, 140, -20);
         }
@@ -1562,9 +1586,9 @@ loop = () => {
     f.restore();
     
     // emotions:
+    
     // sad
     if(story == 0){
-      // sad
       f.save();
       f.translate(131+uoffsetx,160+uoffsety);
       f.scale(1,1);
@@ -1588,14 +1612,14 @@ loop = () => {
     // story progress:
     // 3 => 4
     if(story == 3 && frame == 150){
-      setTimeout(()=>{story = 4; story4(); story4_frame = 0;}, 2000);
+      setTimeout(()=>{story = 4; story1_4(); story4_frame = 0;}, 2000);
       sky2.style.opacity = 0;
       sun.style.opacity = .5;
     }
     
     // 6 => 7
     if(story == 6 && frame == 100){
-      setTimeout(()=>{story = 7; story7();}, 2000);
+      setTimeout(()=>{story = 7; story1_7();}, 2000);
     }
   }
   
@@ -1604,7 +1628,7 @@ loop = () => {
     
       // sun
       f.save();
-      f.translate(450,10);
+      f.translate(480,-10);
       f.scale(.5, .5);
       f.drawImage(imgsun, 30, -90);
       f.restore();
@@ -1642,6 +1666,23 @@ loop = () => {
       f.drawImage(imgmountain, 0, 0);
       f.restore();
       
+      // grass
+      for(var i of patches){
+        f.save();
+        f.translate(i.x-1900, i.y);
+        f.scale(.2, .2);
+        f.globalAplha = 1;
+        f.drawImage(imgpatch, 0, 0);
+        f.restore();
+      }
+      
+      // mountain river bed
+      f.save();
+      f.translate(310,0);
+      f.scale(4.2, 4.2);
+      f.drawImage(imgmountainbed, 0, 0);
+      f.restore();
+      
       // mountain2 (waterfall svg)
       if(story2 >= 2){
         f.save();
@@ -1649,7 +1690,6 @@ loop = () => {
         f.scale(4.2, 4.2);
         if(story2 == 2){
           if(frame > 150){
-            //f.globalAlpha = ((frame < 250) ? ((frame - 150) / 100) : 1);
             f.drawImage(
               imgmountain2,
               0, 0, 100, Math.min(frame - 150, 100),  // crop source
@@ -1761,6 +1801,20 @@ loop = () => {
       f.fillStyle = "#74994d";
       f.fillRect(0,0, 720, 405);
       
+      // grass
+      for(var i of patches){
+        var newx = i.x-1900;
+        var newy = i.y * 2 - 500;
+        if((newx - newy * 2 < -450) || (newx - newy * 2 > 250)){
+          f.save();
+          f.translate(newx, newy);
+          f.scale(.2, .2);
+          f.globalAplha = 1;
+          f.drawImage(imgpatch, 0, 0);
+          f.restore();
+        }
+      }
+      
       // river
       f.save();
       f.translate(0,-130);
@@ -1786,9 +1840,10 @@ loop = () => {
   }
   
   else if(storynb == 3){
+  
     // sun
     f.save();
-    f.translate(450,10);
+    f.translate(480,-10);
     f.scale(.5, .5);
     f.drawImage(imgsun, 30, -90);
     f.restore();
@@ -1799,26 +1854,42 @@ loop = () => {
  
     if(story3 < 5){
     
+      // boat
+      f.save();
+      f.translate(-900-scroll * 5, -100);
+      f.scale(1.5, 1.5);
+      f.drawImage(imgboat, 0, 0);
+      f.restore();
+      
       // tree
       f.font = "150px emoji";
       f.save();
       f.scale(2,2);
-      f.translate(40,140+s3oy);
+      f.translate(40-scroll*2.5,140+s3oy);
       f.fillText("🌳", 0, 0);
       f.restore();
       
+      // grass
+      for(var i of patches){
+        f.save();
+        f.translate(i.x-1900-scroll*5, i.y+50+s3oy*2);
+        f.scale(.2, .2);
+        f.globalAplha = 1;
+        f.drawImage(imgpatch, 0, 0);
+        f.restore();
+      }
           
       // girafy
       f.font = "200px emoji";
       f.save();
       f.scale(2.5,2.5);
-      f.translate(80,100+s3oy/1.5);
+      f.translate(80-scroll*2,100+s3oy/1.5);
       f.fillText("🦒", 0, 0);
       f.restore();
       
       // red crayon (in game)
       f.save();
-      f.translate(310,360+s3oy*2);
+      f.translate(310-scroll*5.5,360+s3oy*2);
       f.scale(1, 1);
       f.drawImage(red, 350, -150);
       f.restore();
@@ -1917,8 +1988,6 @@ loop = () => {
           f.translate(i.x-50, i.y);
           f.scale(.2, .2);
           f.drawImage(imgflower, 0, 0);
-          //f.font = "120px Arial";
-          //f.fillText(i.x + " " + i.y, 0, 0);
           f.restore();
         }
         f.restore();
@@ -1955,6 +2024,26 @@ loop = () => {
       f.scale(1,1);
       f.fillText("🪿", 0, 0);
       f.restore();
+      
+      // grass
+      for(var i of patches){
+        f.save();
+        f.translate(i.x-1900, i.y);
+        f.scale(.2, .2);
+        f.globalAplha = 1;
+        f.drawImage(imgpatch, 0, 0);
+        f.restore();
+      }
+      
+      // flowers
+      for(var i of flowers){
+        f.save();
+        f.translate(700-i.x, i.y+30);
+        f.scale(.2, .2);
+        f.globalAplha = 1;
+        f.drawImage(imgflower, 0, 0);
+        f.restore();
+      }
     }
     
     // unicorn head
@@ -2078,7 +2167,7 @@ if(1){
           if(paths[paths.length-1].length > 0)
             paths.push([]);
         }
-        if(paths.flat().length > 150){
+        if(paths.flat().length > 50){
           ok.style.opacity = 1;
         }
       }
@@ -2115,7 +2204,7 @@ if(1){
           if(paths[paths.length-1].length > 0)
             paths.push([]);
         }
-        if(paths.flat().length > 150){
+        if(paths.flat().length > 50){
           ok.style.opacity = 1;
         }
       }
@@ -2266,9 +2355,9 @@ if(1){
 /* === START === */
 
 onload = () => {
-  // titlejs();
+  titlejs();
   // introjs();
-  storysetup(3);
+  //storysetup(3);
 };
 
 </script>
