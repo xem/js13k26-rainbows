@@ -1,6 +1,7 @@
 ﻿<!doctype html>
 <style>
-@font-face { font-family: emoji; src: url(NotoColorEmoji.ttf) }
+@font-face { font-family: emoji; src: url(N.ttf) }
+@font-face { font-family: comic; src: url(C.ttf) }
 @keyframes float {
     0%, 100% { top: -5px; transform: rotate(-8deg); }
     50%      { top: 5px; transform: rotate(8deg); }
@@ -61,7 +62,7 @@
   position: absolute;
   width: 720px;
   top: 400px;
-  font: 35px cursive, Calibri, sans-serif;
+  font: 35px comic, Calibri, sans-serif;
   color: #fff;
   text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 15px #000, 0 0 15px #000;
   padding: 15px;
@@ -71,7 +72,7 @@
 }
 
 #hud { position: absolute; top: 300px; transition: top 2s; }
-#prologue, #play { border: 2px solid; border-radius: 5px; background: #def; padding: 5px 15px; font: 30px Calibri, sans-serif; position: absolute; top: 350px; color: #f68a9d; cursor: pointer; }
+#prologue, #play { border: 2px solid; border-radius: 5px; background: #def; padding: 5px 15px; font: 30px comic, Calibri, sans-serif; position: absolute; top: 350px; color: #f68a9d; cursor: pointer; }
 #prologue { left: 20px; top: 173px; }
 #play { left: 20px; top: 230px; }
 .animal, .tree, .flower, #unicorn, #unicorntitle { font-family: emoji }
@@ -83,7 +84,7 @@
 #rainbow.intro { width: 700px; height: 170px; overflow: hidden; transform: scale(4.2)translateX(92px) translateY(-10px);}
 #rainbow, #sun { transition: opacity 1s; }
 #unicorn { font-size: 180px; position: absolute; top: 220px; left: 550px; text-shadow: 0 0 2px #000; } 
-#text { width: 720px; opacity: 0; position: absolute; top: 500px; transition: opacity 1s, top 3s, line-height 10s; color: #fff; text-align: center; font: 30px Calibri, sans-serif; text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 15px #000, 0 0 15px #000; line-height: 900px; }
+#text { width: 720px; opacity: 0; position: absolute; top: 500px; transition: opacity 1s, top 3s, line-height 10s; color: #fff; text-align: center; font: 25px comic, Calibri, sans-serif; text-shadow: 0 0 2px #000, 0 0 2px #000, 0 0 15px #000, 0 0 15px #000; line-height: 900px; }
 .crayon { transition: all 6s }
 #unicorn { transition: top 1s; }
 #rain { position: absolute; top: 0; opacity: 0; transition: opacity 1s; }
@@ -98,12 +99,13 @@ canvas { position: absolute; top: 0; left: 0; }
 #sky1, #sky2 { position: absolute; top: 0; left: 0; width: 720px; height: 405px; }
 #sky1 { background: linear-gradient(#acf, #eef 40%, #adf 42%); }
 #sky2 { background: linear-gradient(#111, #333 40%, #123 42%); transition: opacity 3s; } 
-#text2 { width: 660px; position: absolute; top: 0; left: 0; font: 30px Calibri, sans-serif; color: #fff; opacity: 0; transition: opacity 1s; padding: 30px; text-align: center; }
-#ok { width: 45px; height: 45px; position: absolute; top: 200px; left: 630px; border: 5px solid #733e01; background: #333; border-radius: 50%; color: #fff; font: bold 25px/45px Calibri, sans-serif; text-align: center; opacity: 0; cursor: pointer; transition: opacity 1s; }
-#resetb { width: 75px; height: 45px; position: absolute; top: 290px; left: 615px; border: 5px solid #733e01; background: #333; border-radius: 45px; color: #fff; font: bold 25px/45px Calibri, sans-serif; text-align: center; opacity: 0; cursor: pointer; transition: opacity 1s; }
+#text2 { width: 660px; position: absolute; top: 0; left: 0; font: 25px comic, Calibri, sans-serif; color: #fff; opacity: 0; transition: opacity 1s; padding: 30px; text-align: center; }
+#ok { width: 45px; height: 45px; position: absolute; top: 200px; left: 630px; border: 5px solid #733e01; background: #333; border-radius: 50%; color: #fff; font: bold 25px/45px comic, Calibri, sans-serif; text-align: center; opacity: 0; cursor: pointer; transition: opacity 1s; }
+#resetb { width: 75px; height: 45px; position: absolute; top: 290px; left: 615px; border: 5px solid #733e01; background: #333; border-radius: 45px; color: #fff; font: bold 25px/45px comic, Calibri, sans-serif; text-align: center; opacity: 0; cursor: pointer; transition: opacity 1s; }
 #crayons { display: none; position: absolute; overflow: hidden; width: 720px; height: 75px; top: 330px; left: 80px; opacity: 0; transition: opacity 1s; }
 #crayons div { display: inline-block; width: 80px; overflow: hidden;  cursor: pointer; transform: scale(1.3, 1); margin-top: 0px; }
 .hidden { opacity: 0 }
+#toggle { position: absolute; top: 408px; left: 0; cursor: pointer; font: 30px emoji; background: none; border: none; padding: 3px; }
 </style>
 <div id=sky1></div>
 <div id=sky2 style="opacity:0"></div>
@@ -128,6 +130,7 @@ canvas { position: absolute; top: 0; left: 0; }
   </div>
   <div id=title>Unicorny and the Mystery of the<br>Amazing Rainbow Crayons<br>which have Unfortunately Disappeared<br> from its Enchanted Island !</div>
 </div>
+<button id=toggle onclick=togglesound()>🔈</button>
 
 <script>
 
@@ -142,9 +145,12 @@ if(1){
   imgapple = new Image(); imgapple.src = localStorage.unicorny_imgapple || "";
   imgflower = new Image(); imgflower.src = localStorage.unicorny_imgflower || "";
   imgrainbow = new Image(); imgrainbow.src = localStorage.unicorny_imgrainbow || "";
+  
+  // darkness
+  dark = 0;
 
   // story number
-  storynb = 2;
+  storynb = 1;
 
   // drawings
   drawings = {};
@@ -214,7 +220,7 @@ if(1){
   // 5: go to mom
   // 6: draw rainbow
   // 7: end
-  story3 = 7;
+  story3 = 0;
 
   // flowers
   flowers = [{x:559,y:299},{x:602,y:329},{x:215,y:302},{x:335,y:309},{x:513,y:269},{x:675,y:305},{x:130,y:250}];
@@ -229,8 +235,123 @@ if(1){
   // ======
   
   ending = 0;
-  zoom = 10;
+  zoom = 40;
   
+}
+
+/* === MUSIC === */
+if(1){
+  A = new AudioContext();
+  ramp = 1;
+  playpiano = (e,t,b,w,D,j,m,s) => {
+    if(!e) return;
+    for(
+      b = ((e,t,i,a) => Math.sin(e/t*6.28*i+a)),
+      w = ((e,t) => Math.sin(
+        e/44100*t*6.28 +
+        b(e,44100,t,0)**2 +
+        .75*b(e,44100,t,.25) +
+        .1*b(e,44100,t,.5)
+      )),
+      D = [],
+      j = 0;
+      j < 44100*t;
+      j++
+    )
+      D[j] =
+        (j < 88
+        ? j/88.2*w(j,e)
+        : (1-(j-88.2)/(44100*(t-.002)))**
+          ((.5*Math.log(1e4*e/44100))**2)*w(j,e)) / 20;
+
+    m = A.createBuffer(1,1e6,44100);
+    m.getChannelData(0).set(D);
+
+    s = A.createBufferSource();
+    s.buffer = m;
+    s.connect(A.destination);
+    s.start();
+  };
+
+  N = {
+    C4:261.63,D4:293.66,E4:329.63,F4:349.23,
+    G4:392,A4:440,B4:493.88,
+    C5:523.25,D5:587.33,E5:659.25,F5:698.46,
+    G5:783.99,A5:880
+  };
+
+  melodies = [
+
+    // ambiance
+    [
+
+      N.E4,N.G4,N.C5,N.G4,
+      N.E4,N.G4,N.D5,N.C5,
+
+      N.A4,N.C5,N.E5,N.C5,
+      N.G4,N.B4,N.D5,N.B4,
+
+      N.E4,N.G4,N.C5,N.E5,
+      N.D5,N.C5,N.G4,N.E4,
+
+      N.F4,N.A4,N.C5,N.A4,
+      N.G4,N.B4,N.D5,N.G5,
+
+      N.E5,N.D5,N.C5,0,
+      
+      
+      N.C5,N.C5,N.E5,N.G5,
+      N.E5,N.D5,N.C5,0,
+      N.G4,N.G4,N.B4,N.D5,
+      N.B4,N.A4,N.G4,0,
+
+      N.A4,N.C5,N.E5,N.A5,
+      N.G5,N.E5,N.C5,0,
+      N.F5,N.E5,N.D5,N.G5,
+      N.E5,N.D5,N.C5,0,
+      
+      
+      N.E5,N.G5,N.E5,N.C5,
+      N.D5,N.E5,N.G5,0,
+      N.A5,N.G5,N.E5,N.D5,
+      N.C5,N.E5,N.G5,0,
+
+      N.E5,N.D5,N.C5,N.G4,
+      N.A4,N.C5,N.E5,0,
+      N.G5,N.E5,N.D5,N.C5,
+      N.C5,0,
+    
+
+    ],[]
+  ];
+
+  timer = 0;
+  note = 0;
+  notes = melodies[0];
+  melodynb = 1;
+
+  togglesound = () => { note = 0; musique(melodynb = 1-melodynb); toggle.innerHTML = ["🔊","🔈"][melodynb]; }
+
+  musique = (n) => {
+    clearTimeout(timer);
+
+    notes = melodies[n];
+    note = 0;
+
+    next = () => {
+      if(dark && ramp < 6) { ramp = 6; }
+      if(!dark && ramp > 1) { ramp = 1; }
+      
+      if (notes[note])
+        playpiano(notes[note] / ramp, .9 + ramp/6);
+
+      note = (note + 1) % notes.length;
+
+      timer = setTimeout(next, 500 + ramp * 20);
+    }
+
+    next();
+  }
 }
 
 /* === HELPERS === */
@@ -365,9 +486,47 @@ if(1){
     if (i > n) return null;
     return Math.sin(i/200 - Math.sin(i/331)*Math.sin(i/61) + Math.sin(Math.sin(i/59)/39) * 33)*t(i,n)*2;
   }
+  
+  // bubble sound
+  bub = i => {
+    let n = 7000;
+    if (i > n) return null;
+    let q = t(i, n);
+    return Math.sin(i / (60 - (i / 180))) * (q ** 1.5);
+  }
+  
+  // bowl sound
+  tung = i => Math.sin(i / 30) * Math.sin(i * 0.07) * Math.exp(-i/6000)
+  
+  // boat sound
+  buu = i => {
+    let n = 40000;
+    if (i > n) return null;
+    let q = t(i, n);
+    let env = Math.sin(i / 12700); // fade in/out
+    let horn = Math.sin(i / 110) + 0.5 * Math.sin(i / 55);
+    return horn * env * 0.8;
+  }
+  
+  // grow sound
+  puit = i => {
+    let n = 24000;
+    if (i > n) return null;
+    let q = t(i, n);
+    let f = 40 - (i / 800);
+    return Math.sin(i / f) * Math.sin(i / 600) * q;
+  }
 
+  // draw sound
+  zuzu = i => {
+    var n=8e4;
+    if (i > n) return null;
+    var q = t(i,n);
+    return Math.sin(i*0.001*Math.sin(0.0009*i+Math.sin(i/200)))*q/20;
+  }
+  
   // crayon path
-  function drawCrayon(x1, y1, x2, y2, width, color, ctx = a.getContext("2d")) {
+  drawCrayon = (x1, y1, x2, y2, width, color, ctx = a.getContext("2d")) => {
       const dx = x2 - x1;
       const dy = y2 - y1;
       const len = Math.hypot(dx, dy);
@@ -499,6 +658,26 @@ if(1){
 
     return img;
   }
+  
+  createuhead = () => {
+    tmp.width ^= 0;
+    const ctx = tmp.getContext("2d");
+    ctx.font = "bold 100px emoji";
+    ctx.beginPath();
+    ctx.moveTo(100,10);
+    ctx.lineTo(210,10);
+    ctx.lineTo(210,120);
+    ctx.lineTo(170,120);
+    ctx.lineTo(170,97);
+    ctx.lineTo(140,91);
+    ctx.lineTo(100,100);
+    ctx.closePath();
+    ctx.clip();
+    ctx.fillText("🦄", 90, 100);
+    const img = new Image();
+    img.src = tmp.toDataURL("image/png");
+    return img;
+  }
 
   // draw board
   drawboard = (img) => {
@@ -526,14 +705,14 @@ if(1){
       c.drawImage(imgcircledash, 170, 55);
       c.restore();
       c.fillStyle = "#fff8";
-      c.font = "bold 22px Calibri, sans-serif";
+      c.font = "bold 18px comic, Calibri, sans-serif";
       c.fillText("Draw something that will chase the clouds...", 115, 75);
       c.fillText("... in your own style !", 395, 335);
     }
     
     else if(img == 2){
       c.fillStyle = "#fff8";
-      c.font = "bold 22px Calibri, sans-serif";
+      c.font = "bold 18px comic, Calibri, sans-serif";
       c.fillText("Draw some grass for Froggy...", 115, 75);
       c.fillText("You can color inside too !", 355, 335);
       c.beginPath();
@@ -554,7 +733,7 @@ if(1){
     
     else if(img == 3){
       c.fillStyle = "#fff8";
-      c.font = "bold 22px Calibri, sans-serif";
+      c.font = "bold 18px comic, Calibri, sans-serif";
       c.fillText("Draw a waterfall", 115, 75);
       c.save();
       c.scale(2.8,2.8);
@@ -564,7 +743,7 @@ if(1){
     
     else if(img == 4){
       c.fillStyle = "#fff8";
-      c.font = "bold 22px Calibri, sans-serif";
+      c.font = "bold 18px comic, Calibri, sans-serif";
       c.fillText("Draw something made of wood to go on the river...", 115, 75);
       c.fillText("(Unicorny's head for scale)", 345, 335);
       c.save();
@@ -581,7 +760,7 @@ if(1){
     
     else if(img == 5){
       c.fillStyle = "#fff8";
-      c.font = "bold 22px Calibri, sans-serif";
+      c.font = "bold 18px comic, Calibri, sans-serif";
       c.fillText("Feed this mysterious animal !", 115, 75);
       c.save();
       c.scale(3.2,3.2);
@@ -591,7 +770,7 @@ if(1){
     
     else if(img == 6){
       c.fillStyle = "#fff8";
-      c.font = "bold 22px Calibri, sans-serif";
+      c.font = "bold 18px comic, Calibri, sans-serif";
       c.fillText("A flower for Baby Wa", 115, 75);
       c.save();
       c.scale(4,4);
@@ -601,7 +780,7 @@ if(1){
     
     else if(img == 7){
       c.fillStyle = "#fff8";
-      c.font = "bold 22px Calibri, sans-serif";
+      c.font = "bold 18px comic, Calibri, sans-serif";
       c.fillText("Let the rainbow shine !", 115, 75);
       c.fillText("Pick your crayons below !", 355, 335);
       c.save();
@@ -666,6 +845,7 @@ if(1){
   rdash = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M1 89A39 40 0 1 1 98 90L70 90A16 17 0 1 0 25 89Z" fill="none" stroke="#ffffff11" stroke-width="2" stroke-dasharray="3 6" stroke-linecap="round"/></svg>';
   bowl = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M21 27L73 27Q81 28 77 34Q83 80 47 84Q12 81 20 34Q16 29 21 27" fill="#ffffff22" stroke="#000000"/><path d="M23 39L74 39Q76 78 47 80Q18 77 23 39" fill="#2255AADD" stroke="none"/></svg>'
   river = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M0 16Q10 15 12 22Q16 30 25 28Q34 27 39 34Q47 42 56 40Q66 38 73 45Q79 52 89 53Q98 54 99 57L99 79Q92 74 83 73Q69 71 64 65Q54 59 42 61Q29 61 24 50Q18 42 5 45Q0 45 0 43Z" fill="#4477CC" stroke="none"/></svg>'
+  ubody = '<svg width="99" height="99" xmlns="http://www.w3.org/2000/svg"><path d="M31 18L17 23Q24 31 24 42Q15 34 11 40Q3 51 4 53L0 57Q9 58 7 52Q9 52 10 49Q13 44 16 43Q23 50 26 51Q15 58 29 57Q38 59 42 57L46 57Q43 50 39 54Q41 52 43 53Q50 54 51 53Q54 52 57 53Q46 62 56 61Q58 56 60 56Q76 57 81 43Q82 26 65 26Q37 31 31 18Z" fill="#DFDFDF" stroke="#888888"/><path d="M65 33Q55 44 69 50Q54 52 56 54M43 46Q45 50 42 53Q42 52 36 54Q31 55 26 54M26 51L35 47L33 48Q31 45 32 42M29 50Q26 49 25 46" fill="#DFDFDF" stroke="#888888"/><path d="M76 29Q90 22 97 37Q98 51 91 57Q86 60 75 59Q76 56 84 55Q76 53 72 59Q71 62 77 61Q74 66 67 60Q64 52 74 50Q71 46 74 43Q76 50 83 46Q90 38 80 32Z" fill="#E84F90" stroke="none"/></svg>';
   yellow = new Image(); yellow.src = `data:image/svg+xml,${encodeURIComponent(crayon("yellow"))}`;
   green = new Image(); green.src = `data:image/svg+xml,${encodeURIComponent(crayon("green"))}`;
   blue = new Image(); blue.src = `data:image/svg+xml,${encodeURIComponent(crayon("#4fa7e5"))}`;
@@ -690,6 +870,7 @@ if(1){
   imgflowerdash = new Image(); imgflowerdash.src = `data:image/svg+xml,${encodeURIComponent(flowerdash)}`;
   imgrdash = new Image(); imgrdash.src = `data:image/svg+xml,${encodeURIComponent(rdash)}`;
   imgriver = new Image(); imgriver.src = `data:image/svg+xml,${encodeURIComponent(river)}`;
+  imgubody = new Image(); imgubody.src = `data:image/svg+xml,${encodeURIComponent(ubody)}`;
 }
 
 /* === TITLE === */
@@ -753,6 +934,9 @@ titlejs = () => {
   prologue.onclick = () => location = "prologue.html";
 
   play.onclick = () => {
+    if(melodynb == 1){
+      togglesound();
+    }
     fade.style.background = "#000";
     hud.style.top = "400px";
     title.style.top = "-500px";
@@ -796,6 +980,7 @@ introjs = () => {
   }, 1000);
   
   setTimeout(()=>{
+    dark = 1;
     fade.style.background = "#0008";
     rainbow.style.opacity = 0;
     sun.style.opacity = 0;
@@ -837,6 +1022,8 @@ introjs = () => {
       ctx.stroke();
     },50);
     
+    gain.gain.linearRampToValueAtTime(1, AA.currentTime + 5)
+    
   }, 10300);
   
   setTimeout(()=>{
@@ -875,7 +1062,7 @@ if(1){
   story1_1 = () => {
     drawboard(1);
     setTimeout(() => { text2.style.opacity = 0; scrolling = 0; }, 2000);
-    setTimeout(() => { text2.innerHTML = "The crayon said:<br>“you can use me to brighten the sky !”"; text2.style.opacity = 1; }, 4000);
+    setTimeout(() => { text2.innerHTML = "The crayon said:<br>“You can use me to brighten the sky !”"; text2.style.opacity = 1; }, 4000);
     setTimeout(() => { text2.style.opacity = 0; }, 7000);
     setTimeout(() => { story = 2; a.style.top = 0; story1_2(); }, 10000);
   }
@@ -888,6 +1075,7 @@ if(1){
 
   story1_4 = () => {
     gain.gain.linearRampToValueAtTime(0, AA.currentTime + 5);
+    dark = 0;
     scrolling = 1;
     text2.style.color = "#000";
     text2.style.fontWeight = "bold";
@@ -917,7 +1105,8 @@ if(1){
     text2.style.fontWeight = "bold";
     text2.style.width = "530px";
     text2.innerHTML = "And the grass grew and grew...<br>Until it covered all the ground !";
-    setTimeout(()=>{text2.style.opacity = 1 }, 1000);
+    setTimeout(()=>{ py(puit); }, 300);
+    setTimeout(()=>{text2.style.opacity = 1; }, 1000);
     setTimeout(()=>{text2.style.opacity = 0; scrolling = 1; fade.style.display = "block" }, 4000);
     setTimeout(()=>{fade.style.background = "#000"; }, 8000);
     setTimeout(()=>{start(2); }, 9000);
@@ -938,11 +1127,14 @@ if(1){
     story2 = 2;
     a.style.top = "-405px";
     b.style.opacity = 0;
+    py(bub);
     setTimeout(()=>{
-      gain.gain.linearRampToValueAtTime(1, AA.currentTime + 3);
+      //py(tung);
+      gain.gain.linearRampToValueAtTime(.5, AA.currentTime + 3);
     }, 4500);
     setTimeout(()=>{
       text2.style.paddingTop = "5px";
+      py(bub);
       text2.innerHTML = "“Wait a second, I know someone who will help you go through the stream !”";
     }, 6000);
     setTimeout(()=>{text2.style.opacity = 1;}, 6100);
@@ -990,6 +1182,8 @@ if(1){
     frame = 0;
     fade.style.opacity = 0;
     b.style.opacity = 0;
+    setTimeout(()=>{py(buu); },2000);
+    setTimeout(()=>{py(buu); },4000);
     setTimeout(()=>{fade.style.opacity = 1; gain.gain.linearRampToValueAtTime(0, AA.currentTime + 3); }, 6000);
     setTimeout(()=>{start(3); }, 7000);
   }
@@ -1014,7 +1208,7 @@ if(1){
     setTimeout(()=>{ text2.innerHTML = "“I was stuck up there and I couldn't get down...”";}, 11000);
     setTimeout(()=>{ text2.style.opacity = 1; }, 11100);
     setTimeout(()=>{ text2.style.opacity = 0; }, 14000);
-    setTimeout(()=>{ text2.innerHTML = "“You know what's missing on this island? Flowers !”";}, 15000);
+    setTimeout(()=>{ text2.innerHTML = "“You know what's missing on this island ? Flowers !”";}, 15000);
     setTimeout(()=>{ text2.style.opacity = 1; }, 15100);
     setTimeout(()=>{ text2.style.opacity = 0; }, 19000);
     setTimeout(()=>{ story3 = 3; story3_3(); }, 20000);
@@ -1031,10 +1225,10 @@ if(1){
     b.style.opacity = 0;
     frame = 0;
     ghY = 80;
-    console.log(fade);
     fade.style.display = "block";
     fade.style.background = "#000";
     fade.style.opacity = 0;
+    setTimeout(()=>{ py(puit) }, 1000);
     setTimeout(()=>{ text2.innerHTML = "“Yayy, let's find my mom !”"; }, 5000);
     setTimeout(()=>{ text2.style.opacity = 1; }, 5100);
     setTimeout(()=>{ text2.style.opacity = 0; }, 8000);
@@ -1079,21 +1273,49 @@ if(1){
   story3_7 = () => {
     b.style.opacity = 0;
     fade.style.display = "block";
-    setTimeout(()=>{ fade.style.opacity = 1;}, 1000);
-    setTimeout(()=>{ end(); }, 2000)
+    setTimeout(()=>{ fade.style.opacity = 1; resetb.style.opacity = 0; }, 1000);
+    setTimeout(()=>{ end(); resetb.style.display = "none";}, 2000)
   };
 }
 
 /* == END == */
 end = () => {
+  setTimeout(() => { py(zuzu); }, 7000);
   fade.style.opacity = 0;
+  imguhead = createuhead();
   ending = 1;
   frame = 0;
   scroll = 0;
   scrolling = 0;
-  setTimeout(()=>{ fade.style.display = "none"; }, 1000);
+  text2.style.width = "680px";
+  text2.style.opacity = 0;
+  text2.style.transition = "opacity 1s";
+  text2.style.textShadow = "rgb(255, 255, 255) 0px 0px 100px, rgb(255, 255, 255) 0px 0px 100px,rgb(255, 255, 255) 0px 0px 100px, rgb(255, 255, 255) 0px 0px 100px";
+  text2.style.font = "100px comic, Calibri, sans-serif";
+  text2.style.padding = "35px 20px";
+  text2.innerHTML = "THE END";
+  setTimeout(() => { fade.style.display = "none";}, 1000);
+  setTimeout(() => { text2.style.opacity = 1; }, 12000);
+  setTimeout(() => { text2.style.opacity = 0; }, 17000);
+  setTimeout(() => { text2.style.font = "bold 35px comic, Calibri, sans-serif";
+  text2.innerHTML = "Your drawings saved the island !<br>You can screenshot this image<br>and post it online..."; }, 18000);
+  setTimeout(() => { text2.style.opacity = 1; }, 18100);
+  setTimeout(() => { text2.style.opacity = 0; }, 22000);
+  setTimeout(() => { text2.innerHTML = "Code by Xem<br>Cover art by Sev <3"; }, 23000);
+  setTimeout(() => { text2.style.opacity = 1; }, 23100);
+  setTimeout(() => { text2.style.opacity = 0; }, 26000);
+  setTimeout(() => { text2.innerHTML = "Made for JS13kGames 2026<br>Thanks to End3r, Mypoint13k & Alkor<br>for this amazing game jam !"; }, 27000);
+  setTimeout(() => { text2.style.opacity = 1; }, 27100);
+  setTimeout(() => { text2.style.opacity = 0; }, 33000);
+  setTimeout(() => { 
+    text2.style.font = "bold 26px comic, Calibri, sans-serif";
+    text2.innerHTML = "And for their amazing contributions over the years:<br>Salvatore Previti, Siorki, Rémi Vansteelandt, Frank Force, Felipe Alfonso, Greweb, Ryan Malm, Anders Kaare, Gabor Héja, Veubeke, Mark Vasilkov, Mattia Fortunati, Jani Nykänen, Burntcustard, Rob Louie, Subzey, _nderscore, Adrien Guéret, Christer Kaitila, Ania Kubów, Jupiter Hadley, Kang Seonghoon,...<br>all the jurys, contestants, players...<br>and YOU !"
+  }, 34000);
+  setTimeout(() => { text2.style.opacity = 1; }, 34100);
+  setTimeout(() => { text2.style.opacity = 0; }, 50000);
+  
   patches = [];
-  for(i = 0; i < 100; i++){
+  for(i = 0; i < 150; i++){
     patches.push({x:Math.random()*740 - 370, y: Math.random() * 200});
   }
   
@@ -1201,13 +1423,14 @@ start = (nb) => {
     
     // 0
     else {
+      setTimeout(()=>{ py(tung); }, 1300);
       setTimeout(()=>{ text2.style.opacity = 1 }, 2000);
       setTimeout(()=>{ text2.style.opacity = 0 }, 5000);
-      setTimeout(()=>{ text2.innerHTML = "Blubbly said:<br>“there used to be a waterfall here...”"; }, 6000);
-      setTimeout(()=>{ text2.style.opacity = 1 }, 6100);
+      setTimeout(()=>{ text2.innerHTML = "Blubbly said:<br>“There used to be a waterfall here...”"; }, 6000);
+      setTimeout(()=>{ text2.style.opacity = 1; py(bub);  }, 6100);
       setTimeout(()=>{ text2.style.opacity = 0 }, 9000);
       setTimeout(()=>{ text2.innerHTML = "“Here's a blue crayon, can you bring it back?”"; }, 10000);
-      setTimeout(()=>{ text2.style.opacity = 1 }, 10100);
+      setTimeout(()=>{ text2.style.opacity = 1; py(bub); }, 10100);
       setTimeout(()=>{ text2.style.opacity = 0; story2_1();  }, 13000);
     }
   }
@@ -1276,7 +1499,8 @@ storysetup = (nb) => {
 <div id=crayons></div>
 <div id=resetb>Reset</div>
 <div id=fade></div>
-<canvas id=tmp width=720 height=405 style="top:405px;display:none"></canvas>`;
+<canvas id=tmp width=720 height=405 style="top:405px;display:none"></canvas>
+<button id=toggle onclick=togglesound()>${["🔊","🔈"][melodynb]}</button>`;
 
   // canvas
   c = a.getContext("2d"); // board, path
@@ -1301,6 +1525,7 @@ storysetup = (nb) => {
           story = 3;
           frame = 0;
           ok.style.opacity = 0;
+          setTimeout(()=>{py(zuzu)},1000);
         }
         
         // grass
@@ -1311,6 +1536,7 @@ storysetup = (nb) => {
           story = 6;
           frame = 0;
           ok.style.opacity = 0;
+          setTimeout(()=>{py(zuzu)},1000);
         }
       }
       else if(storynb == 2){
@@ -1325,6 +1551,7 @@ storysetup = (nb) => {
           frame = 0;
           ok.style.opacity = 0;
           b.style.opacity = 0;
+          setTimeout(()=>{py(zuzu)},1000);
         }
         
         // boat
@@ -1351,6 +1578,7 @@ storysetup = (nb) => {
           frame = 0;
           ok.style.opacity = 0;
           b.style.opacity = 0;
+          setTimeout(()=>{py(zuzu)},1000);
         }
         
         // flower
@@ -1377,7 +1605,7 @@ storysetup = (nb) => {
           fade.style.opacity = 0;
           fade.style.background = "#000";
           setTimeout(()=>{fade.style.opacity = 1;}, 1000);
-          setTimeout(()=>{story3 = 7; story3_7(); frame = 0;}, 2000);
+          setTimeout(()=>{story3 = 7; story3_7(); frame = 0; }, 2000);
         }
       }
     }
@@ -1413,8 +1641,6 @@ loop = () => {
   if(ending == 1 && zoom > 1){
     zoom **= .99;
   }
-  
-  //zoom = 1;
 
   // disable cursor when a crayon is visible
   if(b.style.opacity == 1) b.style.cursor = "none";
@@ -1457,10 +1683,44 @@ loop = () => {
       newy = i.y;
       f.drawImage(imgpatch, newx, newy+60, 60, 40);
     }
+    for(i of [
+      {x:-30,y:25},
+      {x:-50,y:60},
+      {x:-70,y:40},
+      {x:-90,y:30},
+      {x:20,y:50},
+      {x:50,y:20},
+      {x:70,y:30},
+    ]){
+      f.drawImage(imgpatch, i.x, i.y, 60, 40);
+    }
+    
+    // flowers
+    for(i of [
+      {x:0,y:30},
+      {x:-300,y:90},
+      {x:-250,y:140},
+      {x:-200,y:100},
+      {x:-120,y:50},
+      {x:-140,y:160},
+      {x:50,y:110},
+      {x:150,y:150},
+      {x:200,y:160},
+      {x:250,y:120},
+      
+    ]){
+      f.drawImage(imgflower, i.x, i.y, 40, 25);
+    }
+    
+    
     
     // frog/mountain/waterfall/river/beaver/boat
     f.drawImage(imgendmountain, -360+100, -70, 370, 370);
-    f.drawImage(imgwaterfall, -350+100, -30, 180, 140);
+    f.save();
+    f.rotate(-.2);
+    f.drawImage(imgwaterfall, -360+100, -65, 180, 140);
+    f.restore();
+    f.drawImage(imgbowl, -270, 50, 40,30);
     f.drawImage(imgboat, -130, 50, 180, 140);
     f.font = "40px emoji";
     f.fillText("🦫", -320+100, 90);
@@ -1472,13 +1732,15 @@ loop = () => {
     f.font = "60px emoji";
     f.fillText("🌳", -390, 120);
     f.fillText("🌳", 70, 80);
+    f.drawImage(imgapple, 100, 40, 40, 30);
     f.fillText("🌳", 270, 130);
     
     // girafe/chick/goose/fish
     f.font = "100px emoji";
     f.fillText("🦒", 120, 80);
+    f.font = "20px emoji";
+    f.fillText("🐥", 200, 125);
     f.font = "30px emoji";
-    f.fillText("🐥", 190, 120);
     f.fillText("🪿", 220, 120);
     f.fillText("🐟", 20, 190);
     
@@ -1491,8 +1753,21 @@ loop = () => {
     f.drawImage(orange, 50-20, -10, 50, 50);
     f.drawImage(red, 70-20, -10, 50, 50);
     
+    // unicorn
+    f.font = "30px emoji";
+    f.drawImage(imgubody, -45, 20, 80, 80);
+    f.drawImage(imguhead, -70, 10, 210, 130);
+    
     // rainbow 
-    f.globalAlpha = 0.5;
+    if(frame < 200){
+      f.globalAlpha = 0;
+    }
+    else if(frame > 400){
+      f.globalAlpha = 0.5;
+    }
+    else {
+      f.globalAlpha = (frame-200)/400;
+    }
     f.drawImage(imgrainbow, -400, -300, 800, 400);
   }
   
@@ -2215,7 +2490,7 @@ if(1){
 
       // yellow crayon (over the board)
       if(story == 2){
-        d.font = "20px Calibri, sans-serif";
+        d.font = "20px comic, Calibri, sans-serif";
         d.fillStyle = "#fff";
         d.save();
         d.translate(x,y);
@@ -2227,7 +2502,7 @@ if(1){
       
       // green crayon (over the board)
       if(story == 5){
-        d.font = "20px Calibri, sans-serif";
+        d.font = "20px comic, Calibri, sans-serif";
         d.fillStyle = "#fff";
         d.save();
         d.translate(x,y);
@@ -2266,7 +2541,7 @@ if(1){
       
       // blue crayon (over the board)
       if(story2 == 1){
-        d.font = "20px Calibri, sans-serif";
+        d.font = "20px comic, Calibri, sans-serif";
         d.fillStyle = "#fff";
         d.save();
         d.translate(x,y);
@@ -2303,7 +2578,7 @@ if(1){
       
       // orange crayon (over the board)
       if(story2 == 4){
-        d.font = "20px Calibri, sans-serif";
+        d.font = "20px comic, Calibri, sans-serif";
         d.fillStyle = "#fff";
         d.save();
         d.translate(x,y);
@@ -2343,7 +2618,7 @@ if(1){
       
       // red crayon (over the board)
       if(story3 == 1){
-        d.font = "20px Calibri, sans-serif";
+        d.font = "20px comic, Calibri, sans-serif";
         d.fillStyle = "#fff";
         d.save();
         d.translate(x,y);
@@ -2380,7 +2655,7 @@ if(1){
       
       // purple crayon (over the board)
       if(story3 == 3){
-        d.font = "20px Calibri, sans-serif";
+        d.font = "20px comic, Calibri, sans-serif";
         d.fillStyle = "#fff";
         d.save();
         d.translate(x,y);
@@ -2418,7 +2693,7 @@ if(1){
       
       // rainbow crayons (over the board)
       if(story3 == 6){
-        d.font = "20px Calibri, sans-serif";
+        d.font = "20px comic, Calibri, sans-serif";
         d.fillStyle = "#fff";
         d.save();
         d.translate(x,y);
@@ -2446,9 +2721,9 @@ if(1){
 
 /* === START === */
 onload = () => {
-  //titlejs();
-  // introjs();
-  storysetup(3);
+  titlejs();
+  //introjs(); musique(0);
+  //storysetup(2); musique(0);
   
   // audio setup
   AA = new AudioContext();

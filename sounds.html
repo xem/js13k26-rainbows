@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <title>Générateur de mini sons JS</title>
+  <style>
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, monospace;
+      background: #18191f;
+      color: #e0e0e0;
+      padding: 24px;
+      margin: 0;
+    }
+    h1 {
+      color: #79c0ff;
+      margin-top: 0;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 16px;
+      margin-bottom: 24px;
+    }
+    .card {
+      background: #242731;
+      padding: 14px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+    }
+    .card h3 {
+      margin: 0 0 10px 0;
+      font-size: 1rem;
+      color: #f0883e;
+    }
+    .btn-group {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    button {
+      background: #383e54;
+      border: 1px solid #4f587d;
+      color: #fff;
+      padding: 6px 12px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.15s;
+    }
+    button:hover {
+      background: #505c87;
+    }
+    button:active {
+      background: #1f6feb;
+    }
+    #viewer {
+      position: sticky;
+      bottom: 20px;
+      background: #0d1117;
+      border: 1px solid #30363d;
+      border-radius: 8px;
+      padding: 16px;
+      box-shadow: 0 -4px 16px rgba(0,0,0,0.5);
+    }
+    #viewer-title {
+      font-weight: bold;
+      color: #58a6ff;
+      margin-bottom: 8px;
+    }
+    pre {
+      margin: 0;
+      white-space: pre-wrap;
+      word-break: break-all;
+      color: #7ee787;
+      font-size: 0.95rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>MiniSoundEditor - Variations procédurales</h1>
+
+  <div class="grid" id="container"></div>
+
+  <div id="viewer">
+    <div id="viewer-title">Sélectionnez un son pour l'écouter et afficher son code source</div>
+    <pre id="code-display">// Le code source s'affichera ici...</pre>
+  </div>
+
+<script>
+// Player et helper
+const t = (i, n) => (n - i) / n;
+
+const py = (f, r) => {
+  const A = new (window.AudioContext || window.webkitAudioContext)();
+  const m = A.createBuffer(1, 96e3, 48e3);
+  const b = m.getChannelData(0);
+  for (let i = 96e3; i--;) b[r ? 20000 - i : i] = f(i);
+  const s = A.createBufferSource();
+  s.buffer = m;
+  s.connect(A.destination);
+  s.start();
+};
+
+// Catalogue des sons
+const sounds = {
+  "Bruit de crayon qui dessine sur une feuille": [
+    // 1: Frottement rapide et granuleux
+    i => {
+      let n = 8000;
+      if (i > n) return null;
+      let q = t(i, n);
+      return (((i * 41) ^ (i >> 3)) & 15 ? 1 : -1) * (Math.sin(i / 150) * 0.5 + 0.5) * q * 0.4;
+    },
+    // 2: Trait appuyé et texturé (papier à grain)
+    i => {
+      let n = 12000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let noise = (Math.sin(i * 12.9898) * 43758.5453 % 1);
+      return noise * Math.sin(i / 80) * q * 0.5;
+    },
+    // 3: Gribouillis avec modulation de pression
+    i => {
+      let n = 15000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let pressure = Math.sin(i / 600) * 0.5 + 0.5;
+      return (((i * 17) & 31) - 15) / 15 * pressure * q * 0.45;
+    },
+    // 4: Petit hachurage sec et court
+    i => {
+      let n = 6000;
+      if (i > n) return null;
+      let q = t(i, n);
+      return Math.sin(i / 2 + Math.sin(i * 0.05) * 10) * ((i & 7) - 3.5) / 4 * q * 0.4;
+    },
+    // 5: Mine de crayon qui crisse et glisse
+    i => {
+      let n = 14000;
+      if (i > n) return null;
+      let q = t(i, n);
+      return Math.sin(i / 20 + Math.sin(i / 3) * 5) * ((i % 13) - 6) / 6 * q * 0.35;
+    }
+  ],
+
+  "Bruit de grenouille": [
+    // 1: Coassement grave et vibrant
+    i => {
+      let n = 14000;
+      if (i > n) return null;
+      let q = t(i, n);
+      return Math.sin(i / 35 + Math.sin(i / 150) * 6) * Math.sin(i / 3) * q;
+    },
+    // 2: Rainette saccadée (croac-croac)
+    i => {
+      let n = 16000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let ribbit = (Math.sin(i / 800) > 0 ? 1 : 0.1);
+      return Math.sin(i / 50 + Math.sin(i / 5) * 4) * ribbit * q;
+    },
+    // 3: Crapaud guttural très modulé
+    i => {
+      let n = 20000;
+      if (i > n) return null;
+      let q = t(i, n);
+      return Math.sign(Math.sin(i / 60 + Math.sin(i / 7) * 8)) * Math.sin(i / 220) * q * 0.7;
+    },
+    // 4: Coassement montant / saut d'eau
+    i => {
+      let n = 12000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let f = 70 - (i / 300);
+      return Math.sin(i / f) * Math.sin(i / 8) * q;
+    },
+    // 5: Double coassement sec
+    i => {
+      let n = 15000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let pulse = Math.sin(i / 1200) * 0.5 + 0.5;
+      return Math.sin(i / 40) * (Math.sin(i / 9) > 0 ? 1 : -1) * pulse * q;
+    }
+  ],
+
+  "Bruit de pas dans l'herbe": [
+    // 1: Froissement végétal sec et compact
+    i => {
+      let n = 7000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let noise = (Math.sin(i * 91.13) * 43758.5453 % 1);
+      return noise * Math.sin(i / 80) * (q ** 2);
+    },
+    // 2: Écrasement doux avec brindilles
+    i => {
+      let n = 9000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let crunch = ((i * 13) ^ (i >> 2)) & 31 ? 0.6 : -0.6;
+      let bass = Math.sin(i / 150) * 0.4;
+      return (crunch + bass) * (q ** 1.5);
+    },
+    // 3: Brindille qui casse sous le pied dans l'herbe
+    i => {
+      let n = 8000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let snap = (i < 800) ? Math.sin(i / 8) * 0.7 : 0;
+      let grass = (((i * 7) & 15) - 7) / 7 * 0.4;
+      return (snap + grass) * q;
+    },
+    // 4: Foulée feutrée dans l'herbe haute
+    i => {
+      let n = 11000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let rustle = Math.sin(i / 4 + Math.sin(i / 40) * 3) * ((i & 3) - 1.5) / 2;
+      return rustle * Math.sin(i / 300) * q;
+    },
+    // 5: Pas lourd avec tassement de terre et d'herbe
+    i => {
+      let n = 8500;
+      if (i > n) return null;
+      let q = t(i, n);
+      let step = Math.sin(i / 120) * 0.5;
+      let leaves = (Math.sin(i * 57.17) % 1) * 0.5;
+      return (step + leaves) * (q ** 2);
+    }
+  ],
+
+  "Bruit de bulles": [
+    // 1: Bulle d'eau classique (pitch montant exponentiel)
+    i => {
+      let n = 4000;
+      if (i > n) return null;
+      let q = t(i, n);
+      return Math.sin(i / (25 - (i / 200))) * q;
+    },
+    // 2: Grosse bulle sous-marine résonnante
+    i => {
+      let n = 7000;
+      if (i > n) return null;
+      let q = t(i, n);
+      return Math.sin(i / (60 - (i / 180))) * (q ** 1.5);
+    },
+    // 3: Double éclat de petite bulle rapide
+    i => {
+      let n = 5000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let mod = Math.sin(i / 300) * 10;
+      return Math.sin(i / (18 - (i / 350) + mod)) * q;
+    },
+    // 4: "Plop" creux et liquide
+    i => {
+      let n = 3500;
+      if (i > n) return null;
+      let q = t(i, n);
+      return Math.sin(i / (15 + (i * i / 1e6))) * q;
+    },
+    // 5: Ébullition / grappe de micro-bulles
+    i => {
+      let n = 8000;
+      if (i > n) return null;
+      let q = t(i, n);
+      return Math.sin(i / (20 - ((i % 1200) / 80))) * Math.sin(i / 100) * q;
+    }
+  ],
+
+  "Bruit de bateau qui navigue": [
+    // 1: Moteur diesel régulier de remorqueur
+    i => {
+      let n = 35000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let chug = Math.sin(i / 180 + Math.sin(i / 40) * 2);
+      let water = ((i * 3) & 15) / 30;
+      return (chug * 0.7 + water * 0.3) * q;
+    },
+    // 2: Vague et clapotis contre la coque en bois
+    i => {
+      let n = 30000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let swell = Math.sin(i / 2000) * 0.5 + 0.5;
+      let lap = Math.sin(i / (80 + Math.sin(i / 600) * 30)) * swell;
+      return lap * q;
+    },
+    // 3: Corne de brume au loin
+    i => {
+      let n = 40000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let env = Math.sin(i / 12700); // fade in/out
+      let horn = Math.sin(i / 110) + 0.5 * Math.sin(i / 55);
+      return horn * env * 0.6;
+    },
+    // 4: Étrave fendant l'eau (écume blanche)
+    i => {
+      let n = 28000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let wash = (Math.sin(i * 19.3) * 1000 % 1);
+      let surge = Math.sin(i / 1500) * 0.5 + 0.5;
+      return wash * surge * q * 0.5;
+    },
+    // 5: Voilier qui gîte dans le vent et les vagues
+    i => {
+      let n = 32000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let creak = Math.sin(i / 30 + Math.sin(i / 700) * 20) * 0.3;
+      let breeze = Math.sin(i / 400) * ((i & 7) - 3.5) / 4 * 0.4;
+      return (creak + breeze) * q;
+    }
+  ],
+
+  "Bruit de poussin": [
+    // 1: Piaulement aigu ascendant classique ("piou")
+    i => {
+      let n = 6000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let f = 16 - (i / 600);
+      return Math.sin(i / f) * q;
+    },
+    // 2: Petit cri strident descendant
+    i => {
+      let n = 5500;
+      if (i > n) return null;
+      let q = t(i, n);
+      let f = 11 + (i / 500);
+      return Math.sin(i / f) * q;
+    },
+    // 3: Piaulement modulé vibré
+    i => {
+      let n = 7000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let vib = Math.sin(i / 150) * 1.5;
+      let f = 14 - (i / 800) + vib;
+      return Math.sin(i / f) * q;
+    },
+    // 4: Double pépiement rapide ("pi-piou")
+    i => {
+      let n = 8000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let gate = (i < 3000 || i > 4000) ? 1 : 0;
+      let f = (i < 3500) ? (14 - i / 500) : (16 - (i - 4000) / 500);
+      return Math.sin(i / f) * gate * q;
+    },
+    // 5: Piaulement doux et timide
+    i => {
+      let n = 5000;
+      if (i > n) return null;
+      let q = t(i, n);
+      return Math.sin(i / 13) * Math.sin(i / 200) * q;
+    }
+  ],
+
+  "Bruit d'oie": [
+    // 1: Cacardement nasal brutal ("honk!")
+    i => {
+      let n = 12000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let f = 45 + Math.sin(i / 1000) * 10;
+      let nasal = Math.sin(i / f) + 0.6 * Math.sin(i / (f / 3));
+      return Math.sign(nasal) * q * 0.6;
+    },
+    // 2: Cri perçant montant
+    i => {
+      let n = 14000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let f = 60 - (i / 400);
+      let reed = Math.sin(i / f) * Math.sin(i / 12);
+      return Math.sign(reed) * q * 0.5;
+    },
+    // 3: Oie en alerte (double battement de bec)
+    i => {
+      let n = 15000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let pulse = Math.sin(i / 1200) * 0.5 + 0.5;
+      return (Math.sin(i / 48) > 0 ? 0.7 : -0.7) * pulse * q;
+    },
+    // 4: Grésillement gras de canard / oie
+    i => {
+      let n = 13000;
+      if (i > n) return null;
+      let q = t(i, n);
+      return Math.sin(i / 50 + Math.sin(i / 8) * 6) * q;
+    },
+    // 5: Oie sauvage en plein vol (écho lointain)
+    i => {
+      let n = 18000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let f = 55 - (i / 700);
+      return Math.sin(i / f + Math.sin(i / 20) * 3) * Math.sin(i / 5000) * q;
+    }
+  ],
+
+  "Bruit de fleur qui éclot": [
+    // 1: Tintement féerique ascendant doux
+    i => {
+      let n = 24000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let f = 40 - (i / 800);
+      return Math.sin(i / f) * Math.sin(i / 600) * q;
+    },
+    // 2: Harpe organique montante (arpège rapide)
+    i => {
+      let n = 28000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let step = [32, 28, 24, 21, 18, 16][Math.floor(i / 4000) % 6];
+      return Math.sin(i / step) * (q ** 0.8) * 0.7;
+    },
+    // 3: Déploiement soyeux (froissement de pétales + tonalité)
+    i => {
+      let n = 20000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let tone = Math.sin(i / (30 - i / 1200));
+      let silk = (((i * 9) & 15) - 7) / 20;
+      return (tone * 0.7 + silk) * q;
+    },
+    // 4: Ouverture lumineuse avec modulation en anneau
+    i => {
+      let n = 25000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let f = 25 - (i / 1500);
+      return Math.sin(i / f) * Math.sin(i / 30) * Math.sin(i / 7000) * q;
+    },
+    // 5: Goutte de rosée puis épanouissement sonore
+    i => {
+      let n = 22000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let drop = (i < 3000) ? Math.sin(i / (12 - i / 300)) : 0;
+      let bloom = Math.sin(i / 22) * Math.sin(i / 1500);
+      return (drop + bloom) * q;
+    }
+  ],
+
+  "Bruit de scintillement": [
+    // 1: Étoile magique brillante (modulation aiguë rapide)
+    i => {
+      let n = 18000;
+      if (i > n) return null;
+      let q = t(i, n);
+      return Math.sin(i / 8 + Math.sin(i / 70) * 8) * q * 0.6;
+    },
+    // 2: Poussière de fée cristalline (carillon)
+    i => {
+      let n = 22000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let chime = Math.sin(i / 6) + Math.sin(i / 7.5) + Math.sin(i / 9.2);
+      return chime * Math.sin(i / 200) * q * 0.3;
+    },
+    // 3: Scintillement spatial en cloche inversée
+    i => {
+      let n = 20000;
+      if (i > n) return null;
+      let q = t(i, n);
+      return Math.sin(i / 10) * Math.sin(i / 13) * Math.sin(i / 17) * q * 1.5;
+    },
+    // 4: Flash scintillant ascendant
+    i => {
+      let n = 15000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let f = 12 - (i / 1800);
+      return Math.sin(i / f + Math.sin(i / 120) * 12) * q * 0.6;
+    },
+    // 5: Éclat stroboscopique pur
+    i => {
+      let n = 16000;
+      if (i > n) return null;
+      let q = t(i, n);
+      let sparkle = (Math.sin(i / 250) > 0.3 ? 1 : 0);
+      return Math.sin(i / 7) * sparkle * q * 0.8;
+    }
+  ]
+};
+
+// Construction du DOM
+const container = document.getElementById('container');
+const codeDisplay = document.getElementById('code-display');
+const viewerTitle = document.getElementById('viewer-title');
+
+Object.entries(sounds).forEach(([theme, variants]) => {
+  const card = document.createElement('div');
+  card.className = 'card';
+
+  const title = document.createElement('h3');
+  title.textContent = theme;
+  card.appendChild(title);
+
+  const btnGroup = document.createElement('div');
+  btnGroup.className = 'btn-group';
+
+  variants.forEach((fn, index) => {
+    const btn = document.createElement('button');
+    btn.textContent = `V${index + 1}`;
+    btn.onclick = () => {
+      py(fn);
+      viewerTitle.textContent = `${theme} — Variation ${index + 1}`;
+      codeDisplay.textContent = fn.toString();
+    };
+    btnGroup.appendChild(btn);
+  });
+
+  card.appendChild(btnGroup);
+  container.appendChild(card);
+});
+</script>
+</body>
+</html>
