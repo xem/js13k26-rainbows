@@ -1281,7 +1281,7 @@ if(1){
     setTimeout(()=>{text2.style.opacity = 1; }, 1000);
     setTimeout(()=>{text2.style.opacity = 0; scrolling = 1; fade.style.display = "block" }, 4000);
     setTimeout(()=>{fade.style.background = "#000"; }, 8000);
-    setTimeout(()=>{start(2); }, 9000);
+    setTimeout(()=>{start(2); frame = 0; }, 9000);
   }
 }
 
@@ -2902,7 +2902,7 @@ if(1){
 onload = () => {
   titlejs();
   //introjs(); musique(0);
-  //storysetup(3); musique(0);
+  //storysetup(1); musique(0);
   
   // audio setup
   AA = new AudioContext();
